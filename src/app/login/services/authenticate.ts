@@ -3,14 +3,6 @@
 import { signIn, signOut } from "@/features/auth/auth";
 import { AuthError } from "next-auth";
 
-export const login = async () => {
-    await signIn("github", { redirectTo: "/"});
-}
-
-export const logout = async () => {
-    await signOut({ redirectTo: "/"});
-}
-
 export async function authenticate(
     prevState: string | undefined,
     formData: FormData,

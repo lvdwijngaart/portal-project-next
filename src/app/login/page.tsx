@@ -1,8 +1,7 @@
 "use server";
 
 import { auth } from "@/features/auth/auth";
-import { LoginForm } from "@/features/auth/components/login-form";
-import { LogoutButton } from "@/features/auth/components/logout-button";
+import { LoginForm } from "@/app/login/components/loginForm";
 import Image from "next/image";
 
 export default async function Login() {
@@ -16,7 +15,6 @@ export default async function Login() {
             { session.user.image && 
                 <Image src={session.user.image} width={48} height={48} alt="Avatar"/>
             }
-            <LogoutButton />
         </div>
     }
 
