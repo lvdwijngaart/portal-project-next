@@ -17,8 +17,16 @@ export default function TeamsPage() {
 
   return (
     <div className="teams-page">
-      <div className="header">
-        <h1>Teams Page</h1>
+      <div className="members-header">
+        <div className='members-header-left'>
+          <h1>Members</h1>
+          <button >Add new</button>
+          <button >Import members</button>
+          <button >Export members (Excel)</button>
+        </div>
+        <div className='members-header-right'>
+          <button>{'<'} Filters</button>
+        </div>
       </div>
       <p></p>
       <TeamsList />

@@ -4,35 +4,68 @@ import React from 'react';
 import './NavBar.css';
 // import { enabledModules } from '../../config/modules.config';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const NavBar: React.FC = () => {
+  const pathname = usePathname();
+  const isAdminPage = pathname?.startsWith('/admin');
+  
   return (
-    <aside className="sidebar">
-      <div className="sidebar-logo">
-        <img src="/logo.png" alt="Club Logo" />
-        <h2>Club Portal</h2>
-      </div>
+    <div>
+      {isAdminPage ? (
+        <aside className="sidebar admin">
+          <div className="sidebar-logo">
+            <img src="/logo.png" alt="Club Logo" />
+            <h2>Club Portal</h2>
+          </div>
+          <nav className="sidebar-nav">
+          {/* <a href="/">🏠 Home</a>
+          <a href="/members">👥 Members</a>
+          <a href="#">📅 Calendar</a> */}
+          <Link href={'/'}>🏠 Home</Link>
+          <Link href={'/documents'}>📚 Useful Docs</Link>
+          <Link href={'/teams'}>🏆 Teams</Link>
+          <Link href={'/activities'}>🎉 Activities</Link>
 
-      <nav className="sidebar-nav">
-        {/* <a href="/">🏠 Home</a>
-        <a href="/members">👥 Members</a>
-        <a href="#">📅 Calendar</a> */}
-        <Link href={'/'}>🏠 Home</Link>
-        <Link href={'/documents'}>📚 Useful Docs</Link>
-        <Link href={'/teams'}>🏆 Teams</Link>
-        <Link href={'/activities'}>🎉 Activities</Link>
+          {/* {enabledModules
+            .filter(mod => mod.showInSidebar && mod.route)
+            .map(mod => (
+              <Link to={mod.route || '/'} key={mod.id}>
+                {mod.icon} {mod.label}
+              </Link>
+          ))} */}
+          <Link href={'/settings'}>⚙️ Settings</Link>
+          <Link href={'/admin'}>👨‍💼 Admin</Link>
+        </nav>
+      </aside>
+      ) : (
+        <aside className="sidebar">
+          <div className="sidebar-logo">
+            <img src="/logo.png" alt="Club Logo" />
+            <h2>Club Portal</h2>
+          </div>
+          <nav className="sidebar-nav">
+            {/* <a href="/">🏠 Home</a>
+            <a href="/members">👥 Members</a>
+            <a href="#">📅 Calendar</a> */}
+            <Link href={'/'}>🏠 Home</Link>
+            <Link href={'/documents'}>📚 Useful Docs</Link>
+            <Link href={'/teams'}>🏆 Teams</Link>
+            <Link href={'/activities'}>🎉 Activities</Link>
 
-        {/* {enabledModules
-          .filter(mod => mod.showInSidebar && mod.route)
-          .map(mod => (
-            <Link to={mod.route || '/'} key={mod.id}>
-              {mod.icon} {mod.label}
-            </Link>
-        ))} */}
-        <Link href={'/settings'}>⚙️ Settings</Link>
-      </nav>
-    </aside>
-
+            {/* {enabledModules
+              .filter(mod => mod.showInSidebar && mod.route)
+              .map(mod => (
+                <Link to={mod.route || '/'} key={mod.id}>
+                  {mod.icon} {mod.label}
+                </Link>
+            ))} */}
+            <Link href={'/settings'}>⚙️ Settings</Link>
+            <Link href={'/admin'}>👨‍💼 Admin</Link>
+          </nav>
+        </aside>
+      )}
+    </div>
     
     // <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" className="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
     // <span className="sr-only">Open sidebar</span>

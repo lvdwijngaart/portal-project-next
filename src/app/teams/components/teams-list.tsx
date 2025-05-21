@@ -24,10 +24,6 @@ export default function TeamsList() {
   return (
     <div className="relative">
       <div className="table-container">
-        <div className='table-header' style={{ display: 'flex', gap: '30px', marginBottom: '20px' }}>
-          <h1>Team List</h1>
-          {/* <button onClick={handleAddTeam}>Add team</button> */}
-        </div>
         {teams.map(team => (
           <TeamListItem 
             key={team.id} 

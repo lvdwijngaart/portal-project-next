@@ -10,6 +10,10 @@
   position: sticky; /* Add this to keep it fixed when scrolling */
   top: 0; /* Add this to align to the top */
 }
+
+.sidebar.admin {
+  background-color: #1E3A4C; 
+}
   
 .sidebar-logo {
   display: flex;
