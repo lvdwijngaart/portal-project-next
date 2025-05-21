@@ -1,6 +1,5 @@
 "use server";
 
-import { login } from "@/features/auth/actions";
 import { auth } from "@/features/auth/auth";
 import { LoginForm } from "@/features/auth/components/login-form";
 import { LogoutButton } from "@/features/auth/components/logout-button";
