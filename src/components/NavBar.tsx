@@ -18,7 +18,7 @@ const NavBar: React.FC = () => {
         <a href="/members">👥 Members</a>
         <a href="#">📅 Calendar</a> */}
         <Link href={'/'}>🏠 Home</Link>
-        <Link href={'/docs'}>📚 Useful Docs</Link>
+        <Link href={'/documents'}>📚 Useful Docs</Link>
         <Link href={'/teams'}>🏆 Teams</Link>
         <Link href={'/activities'}>🎉 Activities</Link>
 
