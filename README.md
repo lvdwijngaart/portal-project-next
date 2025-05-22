@@ -1,3 +1,16 @@
+# Portal Project
+Hey! My name is Luca van der Wijngaart and this application is being developed completely by me. __I'm building a (sports association) member portal.__ With this project I am looking to __hone my skills__ in 
+
+- Programming languages/Frameworks: <span style="color:yellow">React, Next.js and CSS</span>.
+- System design: Devising system requirements, designing software and general documentation. 
+- Other useful skills like: Best practices, <span style="color:yellow">Git Management</span> and deployment. 
+
+All while hopefully building something my volleyball association could really use. Please read on to see the progress and current status of this project. If you have any questions or inquiries, please reach out to me via mail [l.vd.wijngaart@outlook.com](mailto:l.vd.wijngaart@outlook.com), or by messaging me on [LinkedIn](https://www.linkedin.com/in/luca-van-der-wijngaart-51046133a/?originalSubdomain=nl). 
+
+
+
+# Project resources
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
