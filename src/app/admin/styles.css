@@ -1,0 +1,12 @@
+.admin-page{ 
+    padding: 20px;
+}
+
+.admin-header{
+    padding: 20px;
+}
+
+.admin-header h1{
+    font-size: 24px;
+    font-weight: bold;
+}
