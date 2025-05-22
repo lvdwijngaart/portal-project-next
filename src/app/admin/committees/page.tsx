@@ -24,7 +24,6 @@ export default function AdminCommitteesPage() {
         {/* Tab component */}
         <h1>Admin Committees Page</h1> 
       </div>
-      <p>This is the admin committees page.</p>
       {/* Add your content here */}
     </div>
   );

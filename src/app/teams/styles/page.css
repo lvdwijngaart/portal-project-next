@@ -1,0 +1,33 @@
+.members-page {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+
+.members-header {
+  font-size: xx-large;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: left;
+  padding: 0 20px;
+  margin-bottom: 20px;
+}
+
+.members-header-left {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.members-header div button {
+  font-size: initial;
+  padding: 10px;
+  color: white;
+  background-color: #6f5cc7;
+  border: none;
+  border-radius: 5px;
+}
