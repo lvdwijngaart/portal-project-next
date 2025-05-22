@@ -1,50 +1,73 @@
 .sidebar {
-    width: 220px;
-    background-color: #6f5cc7; /* Your purple theme */
-    height: 100vh; /* Change this to viewport height instead of percentage */
-    color: white;
-    display: flex;
-    flex-direction: column;
-    padding: 1.5rem 0;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    position: sticky; /* Add this to keep it fixed when scrolling */
-    top: 0; /* Add this to align to the top */
-  }
+  width: 220px;
+  background-color: #6f5cc7; /* Your purple theme */
+  height: 100vh; /* Change this to viewport height instead of percentage */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 0;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  position: sticky; /* Add this to keep it fixed when scrolling */
+  top: 0; /* Add this to align to the top */
+}
+
+.sidebar.admin {
+  background-color: #1E3A4C; 
+}
   
-  .sidebar-logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 2rem;
-  }
-  
-  .sidebar-logo img {
-    height: 50px;
-    margin-bottom: 0.5rem;
-  }
-  
-  .sidebar-logo h2 {
-    font-size: 1.1rem;
-    text-align: center;
-  }
-  
-  .sidebar-nav {
-    display: flex;
-    flex-direction: column;
-    font-size: 1.2rem;
-  }
-  
-  .sidebar-nav a {
-    display: flex;
-    align-items: center;
-    padding: 0rem 1.5rem;
-    color: white;
-    text-decoration: none;
-    height: 3rem;
-    border-radius: 6px;
-    transition: background 0.2s ease;
-  }
-  
-  .sidebar-nav a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
+.sidebar-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.sidebar-logo img {
+  height: 50px;
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-logo h2 {
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.sidebar-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.admin-button-container {
+  padding: 0 1.5rem;
+  margin-top: auto; /* This pushes it to the bottom */
+  margin-bottom: 1rem;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  padding: 0rem 1.5rem;
+  color: white;
+  text-decoration: none;
+  height: 3rem;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.sidebar-nav a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.admin-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
