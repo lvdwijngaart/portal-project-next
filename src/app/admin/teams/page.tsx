@@ -26,7 +26,11 @@ export default function AdminTeamsPage() {
       <div className="admin-header">
         {/* Tab component */}
         <h1>Admin Teams Page</h1> 
+        {/* <button >Add new</button>
+        <button >Import members</button>
+        <button >Export members (Excel)</button> */}
       </div>
+      <p>This is the admin teams page.</p>
       {/* Add your content here */}
     </div>
   );
