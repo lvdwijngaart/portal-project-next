@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
+import { Team } from '../types';
 
 // import './team-details.css'; // Import your CSS file for styles
 
@@ -13,7 +14,7 @@ import { useEffect, useState } from 'react';
  * @param onClose - Function to close the details panel.
  * @returns JSX element representing the team details panel.
  */
-export function TeamDetails({ team, onClose }: { team: any; onClose: () => void }) {
+export function TeamDetails({ team, onClose }: { team: Team; onClose: () => void }) {
   const [isVisible, setIsVisible] = useState(false);
   
   // Handle animation timing
@@ -69,7 +70,7 @@ export function TeamDetails({ team, onClose }: { team: any; onClose: () => void 
           <div>
             <h3 className="text-lg font-bold mb-2">Members</h3>
             <ul className="space-y-2">
-              {team.members.map((member: any, index: number) => (
+              {team.members.map((member: {name: string}, index: number) => (
                 <li key={index} className="p-2 border rounded">
                   {member.name}
                 </li>

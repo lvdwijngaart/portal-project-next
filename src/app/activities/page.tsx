@@ -11,6 +11,10 @@
  * * * Sign up for an activity
  * * * View a list of past activities
  * * * View details of a past activity (photos)
+ * * Settings: 
+ * * * Manage activity settings
+ * * * Manage activity categories
+ * * * Manage activity types (?)
  * @todo Devise more detailed requirements for this page.
  * 
  * @returns JSX element representing the activities page.
