@@ -27,6 +27,7 @@ export default function AdminMembersPage() {
         {/* Tab component */}
         <h1>Admin Members Page</h1> 
       </div>
+      <p>This is the admin members page.</p>
       {/* Add your content here */}
     </div>
   );

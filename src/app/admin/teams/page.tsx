@@ -27,6 +27,7 @@ export default function AdminTeamsPage() {
         {/* Tab component */}
         <h1>Admin Teams Page</h1> 
       </div>
+      <p>This is the admin teams page.</p>
       {/* Add your content here */}
     </div>
   );

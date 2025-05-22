@@ -1,9 +1,21 @@
+// "use client";
+
+// import { login } from "@/features/auth/actions";
+
+// export const LoginField = () => {
+//     return (
+//         <button onClick={() => login()}>
+//             Sign in with Github
+//         </button>
+//     );
+// }
+
 "use client";
 
 import { useActionState, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { authenticate } from "@/app/login/services/authenticate";
+import { authenticate } from "@/features/auth/actions";
 
 export function LoginForm() {
   const searchParams = useSearchParams();

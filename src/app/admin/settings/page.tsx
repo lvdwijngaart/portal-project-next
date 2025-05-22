@@ -20,6 +20,7 @@ export default function AdminSettingsPage() {
         {/* Tab component */}
         <h1>Admin Settings Page</h1> 
       </div>
+      <p>This is the admin settings page.</p>
       {/* Add your content here */}
     </div>
   );
