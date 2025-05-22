@@ -33,9 +33,16 @@
 }
 
 .sidebar-nav {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  font-size: 1.2rem;
+  overflow-y: auto;
+}
+
+.admin-button-container {
+  padding: 0 1.5rem;
+  margin-top: auto; /* This pushes it to the bottom */
+  margin-bottom: 1rem;
 }
 
 .sidebar-nav a {
@@ -51,4 +58,16 @@
 
 .sidebar-nav a:hover {
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+.admin-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.2s;
 }
