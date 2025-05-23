@@ -34,6 +34,9 @@ export default [
         argsIgnorePattern: "^_",
         varsIgnorePattern: "^_",
       }],
+
+      // no-namespace rule off
+      '@typescript-eslint/no-namespace': 'off'
     },
   },
 ];
