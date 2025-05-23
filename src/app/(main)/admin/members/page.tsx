@@ -1,7 +1,7 @@
 "use client";
 
 import { Member } from "@/features/members/types/Member";
-import MembersList from "./components/members-list";
+import MembersList from "@/features/members/components/members-list";
 import { use, useEffect, useState } from "react";
 
 

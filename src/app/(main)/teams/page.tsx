@@ -1,11 +1,11 @@
 "use client";
 
 import { auth } from "@/features/auth/services/auth";
-import { LoginForm } from "@/app/login/components/login-form";
+import { LoginForm } from "@/features/auth/components/login-form";
 import Image from "next/image";
-import TeamsList from "./components/teams-list";
+import TeamsList from "@/features/teams/public/components/teams-list";
 
-import "./styles/page.css";
+import "./page.css";
 
 /**
  * TeamsPage component

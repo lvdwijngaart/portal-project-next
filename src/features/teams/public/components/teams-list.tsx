@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { TeamDetails } from './team-details';
 
-import '../styles/teams-list.css'; 
-import { Team } from '../../../features/teams/types/Team';
+import '../../styles/teams-list.css'; 
+import { Team } from '../../types/Team';
 import { teamDummyData } from '@/features/teams/types/TeamDummyData';
 
 /**

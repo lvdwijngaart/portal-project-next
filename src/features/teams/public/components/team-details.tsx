@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Team } from '../../../features/teams/types/Team';
+import { Team } from '@/features/teams/types/Team';
 
 // import './team-details.css'; // Import your CSS file for styles
 
@@ -63,18 +63,18 @@ export function TeamDetails({ team, onClose }: { team: Team; onClose: () => void
         {/* Content */}
         <div className="p-6">
           <div className="mb-6">
-            <h3 className="text-lg font-bold mb-2">Description</h3>
-            <p>{team.description}</p>
+            <h3 className="text-lg font-bold mb-2">Theme</h3>
+            <p>{team.theme}</p>
           </div>
           
           <div>
             <h3 className="text-lg font-bold mb-2">Members</h3>
             <ul className="space-y-2">
-              {team.members.map((member: {name: string}, index: number) => (
+              {/* {team.members.map((member: {name: string}, index: number) => (
                 <li key={index} className="p-2 border rounded">
                   {member.name}
                 </li>
-              ))}
+              ))} */}
             </ul>
           </div>
         </div>

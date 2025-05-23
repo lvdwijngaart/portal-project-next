@@ -1,26 +1,14 @@
+
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-// import Github from "next-auth/providers/github";
 import { z } from "zod";
 import bcryptjs from "bcryptjs";
-import postgres from "postgres";
-import { User } from "@/features/auth/types/user";
+import { getUser } from "./db-actions";
 
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
-export async function getUser(email: string): Promise<User | undefined> {
-  try {
-    const user = await sql<User[]>`SELECT * FROM users WHERE email = ${email}`;
-    return user[0];
-  } catch (error) {
-    console.error('Error fetching user:', error);
-    throw new Error('Failed to fetch user'); 
-  }
-}
-
-export const { auth, handlers, signIn, signOut } = NextAuth({
+// Auth configuration without server directive
+export const nextAuthConfig = {
   providers: [
-    // Github, 
     Credentials({
       async authorize(credentials, req) {
         const parsedCredentials = z
@@ -34,7 +22,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           const { email, password } = parsedCredentials.data;
           const user = await getUser(email);
 
-          if (!user) return null
+          if (!user) return null;
 
           const passwordMatch = await bcryptjs.compare(password, user.password);
           if (passwordMatch) return user;
@@ -45,4 +33,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       }
     }),
   ],
-});
+};
+
+// Export the NextAuth instance
+export const { auth, handlers, signIn, signOut } = NextAuth(nextAuthConfig);

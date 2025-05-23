@@ -3,7 +3,9 @@
 import { useActionState, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { authenticate } from "@/app/login/services/authenticate";
+import { authenticate } from "@/features/auth/services/authenticate";
+
+import "./login-form.css"; 
 
 export function LoginForm() {
   const searchParams = useSearchParams();
@@ -14,7 +16,7 @@ export function LoginForm() {
   );
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="login-form">
       <h2 className="text-xl font-bold mb-6">Log in to your account</h2>
       
       {errorMessage && (
