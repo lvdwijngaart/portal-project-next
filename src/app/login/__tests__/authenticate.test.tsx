@@ -1,5 +1,5 @@
 import { authenticate } from '../services/authenticate';
-import { signIn } from '@/features/auth/auth';
+import { signIn } from '@/features/auth/services/auth';
 
 // Mock the auth module
 jest.mock('@/features/auth/auth', () => ({

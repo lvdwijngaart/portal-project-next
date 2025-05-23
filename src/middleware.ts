@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
-import { auth } from "@/features/auth/auth";
+import { auth } from "@/features/auth/services/auth";
 
 
 export default async function middleware(request: NextRequest) {

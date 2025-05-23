@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { TeamDetails } from './team-details';
 
 import '../styles/teams-list.css'; 
-import { Team } from '../types';
+import { Team } from '../../../features/teams/types/Team';
+import { teamDummyData } from '@/features/teams/types/TeamDummyData';
 
 /**
  * TeamsList component
@@ -17,10 +18,7 @@ export default function TeamsList() {
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
 
   // Mock data - replace with actual data fetching
-  const teams: Team[] = [
-    { id: 1, name: "Ladies 1", description: "Product development team", members: [{ name: "Lauren" }, { name: "Rugile" }] },
-    { id: 2, name: "Gents 1", description: "Brand and growth team", members: [{ name: "Kyran" }, { name: "Stan" }, { name: "Ian" }] },
-  ];
+  const teams: Team[] = teamDummyData;
 
   return (
     <div className="relative">
@@ -64,8 +62,8 @@ export function TeamListItem({ team, onClick }: { team: Team; onClick: () => voi
       onClick={onClick}
     >
       <h1>{team.name}</h1>
-      <p>{team.description}</p>
-      <p>{team.members.length} members</p>
+      <p>{team.theme}</p>
+      <p>{team.memberIds} members</p>
     </div>
   );
 }

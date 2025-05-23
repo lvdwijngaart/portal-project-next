@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Team } from '../types';
+import { Team } from '../../../features/teams/types/Team';
 
 // import './team-details.css'; // Import your CSS file for styles
 

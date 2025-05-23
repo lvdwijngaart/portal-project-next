@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@/features/auth/auth";
+import { auth } from "@/features/auth/services/auth";
 import { LoginForm } from "@/app/login/components/login-form";
 import Image from "next/image";
 

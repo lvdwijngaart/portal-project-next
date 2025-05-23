@@ -1,3 +1,8 @@
+"use client";
+
+import { Member } from "@/features/members/types/Member";
+import MembersList from "./components/members-list";
+import { use, useEffect, useState } from "react";
 
 
 /**
@@ -19,6 +24,47 @@
  * @returns JSX element representing the admin members page.
  */
 export default function AdminMembersPage() {
+  const [members, setMembers] = useState<Member[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchMembers() {
+      try {
+        // const response = await fetch("/api/members");
+        // if (!response.ok) {
+        //   throw new Error("Failed to fetch members");
+        // }
+        // const data = await response.json();
+        const data: Member[] = [
+          {
+            id: "1",
+            firstName: "John",
+            lastName: "Doe",
+            email: "123@123.com",
+          }
+        ];
+        setMembers(data);
+      } catch (e) {
+        if (e instanceof Error) {
+          setError(e.message);
+        } else {
+          setError("An unknown error occurred");
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchMembers();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
 
   return (
@@ -28,7 +74,7 @@ export default function AdminMembersPage() {
         <h1>Admin Members Page</h1> 
       </div>
       <p>This is the admin members page.</p>
-      {/* Add your content here */}
+      <MembersList members={members}/>
     </div>
   );
 }
