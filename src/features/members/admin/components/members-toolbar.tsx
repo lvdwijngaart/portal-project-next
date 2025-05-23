@@ -13,6 +13,20 @@ type Props = {
   onFilter: () => void
 }
 
+/**
+ * MembersToolbar component provides a toolbar UI for managing members.
+ *
+ * This component includes buttons for adding, importing and exporting members, a search bar and a filter button.
+ * 
+ * @param search - The current search query string.
+ * @param onSearchChange - Callback function invoked when the search input changes.
+ * @param onAdd - Callback function invoked when the "Add Member" button is clicked.
+ * @param onImport - Callback function invoked when the "Import Members" button is clicked.
+ * @param onExport - Callback function invoked when the "Export Members" button is clicked.
+ * @param onFilter - Callback function invoked when the "Filters" button is clicked.
+ *
+ * @returns A toolbar with actions for adding, importing, exporting, searching, and filtering members.
+ */
 export default function MembersToolbar({
   search,
   onSearchChange,

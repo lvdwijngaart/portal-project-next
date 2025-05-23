@@ -35,7 +35,7 @@ export interface Member {
 
   fieldPosition?: string
   shirtNumber?: string
-  memberSince?: string
+  memberSince?: string | Date
   memberType?: "member" | "reunion" | "trainer" | "guest"
 
   createdAt?: string

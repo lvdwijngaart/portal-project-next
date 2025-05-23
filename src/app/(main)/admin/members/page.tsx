@@ -1,11 +1,12 @@
 "use client";
 
-import { Member } from "@/features/members/types/Member";
+import { Member } from "@prisma/client";
 import MembersList from "@/features/members/admin/components/members-list";
 import { use, useEffect, useState } from "react";
 import MembersToolbar from "@/features/members/admin/components/members-toolbar";
 import { getMembers } from "@/features/members/services/membersService";
 import AddMemberModal from "@/features/members/admin/components/add-modal";
+import ImportMemberModal from "@/features/members/admin/components/import-modal";
 
 
 /**
@@ -31,8 +32,11 @@ export default function AdminMembersPage() {
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Modal states
   const [isAddOpen, setAddOpen] = useState(false);
+  const [isImportOpen, setImportOpen] = useState(false);
 
+  // Fetch members from the server when the component mounts
   useEffect(() => {
     async function fetchMembers() {
       try {
@@ -52,10 +56,22 @@ export default function AdminMembersPage() {
     fetchMembers();
   }, []);
 
-  function handleAddMember() {
+  // When the Add Member modal is opened in the toolbar, set the state to open
+  function openAddModal() {
     setAddOpen(true);
   }
 
+  // When the Import Member modal is opened in the toolbar, set the state to open
+  function openImportModal() {
+    setImportOpen(true);
+  }
+
+  // When the export button is clicked, for now log the action
+  function handleExport() {
+    console.log("Export Members");
+  }
+
+  // Handle error state. Errors can occur during data fetching
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -68,15 +84,22 @@ export default function AdminMembersPage() {
         <MembersToolbar 
           search="test"
           onSearchChange={(search) => console.log(search)}
-          onAdd={handleAddMember}
-          onImport={() => console.log("Import Members")}
-          onExport={() => console.log("Export Members")}
+          onAdd={openAddModal}
+          onImport={openImportModal}
+          onExport={handleExport}
           onFilter={() => console.log("Edit Members")}
         />
       </div>
       <MembersList members={members} isLoading={isLoading}/>
       {isAddOpen && (
-        <AddMemberModal isOpen={isAddOpen} onClose={() => setAddOpen(false)} />
+        <AddMemberModal 
+          isOpen={isAddOpen} 
+          onClose={() => setAddOpen(false)} // Close the modal
+          onSubmit={(newMember) => setMembers(prev => [...prev, newMember])}  // Add new member to the list of members being displayed
+        />
+      )}
+      {isImportOpen && (
+        <ImportMemberModal isOpen={isImportOpen} onClose={() => setImportOpen(false)} />
       )}
     </div>
   );

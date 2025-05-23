@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Member {
+  id             String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId         String?         @map("user_id") @db.Uuid
+  firstName      String          @map("first_name")
+  lastName       String          @map("last_name")
+  email          String          @unique
+  phone          String?
+  address        String?
+  emergencyName  String?         @map("emergency_name")
+  emergencyPhone String?         @map("emergency_phone")
+  birthDate      DateTime?       @map("birth_date") @db.Date
+  study          String?
+  fieldPosition  String?         @map("field_position")
+  shirtNumber    String?         @map("shirt_number")
+  memberSince    DateTime        @default(dbgenerated("CURRENT_DATE")) @map("member_since") @db.Date
+  memberType     membership_type @default(member) @map("member_type")
+  createdAt      DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime        @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  users          users?          @relation(fields: [userId], references: [id], onUpdate: NoAction)
+
+  @@map("members")
+}
+
+model users {
+  id         String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name       String    @db.VarChar(255)
+  email      String    @unique
+  password   String
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  members    Member[]
+}
+
+enum membership_type {
+  member
+  reunion
+  trainer
+  guest
+}
+
+enum status {
+  active
+  inactive
+  archived
+}
