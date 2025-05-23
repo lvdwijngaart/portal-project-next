@@ -4,6 +4,8 @@ import { Member } from "@/features/members/types/Member";
 import MembersList from "@/features/members/admin/components/members-list";
 import { use, useEffect, useState } from "react";
 import MembersToolbar from "@/features/members/admin/components/members-toolbar";
+import { getMembers } from "@/features/members/services/membersService";
+import AddMemberModal from "@/features/members/admin/components/add-modal";
 
 
 /**
@@ -26,25 +28,15 @@ import MembersToolbar from "@/features/members/admin/components/members-toolbar"
  */
 export default function AdminMembersPage() {
   const [members, setMembers] = useState<Member[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [isAddOpen, setAddOpen] = useState(false);
 
   useEffect(() => {
     async function fetchMembers() {
       try {
-        // const response = await fetch("/api/members");
-        // if (!response.ok) {
-        //   throw new Error("Failed to fetch members");
-        // }
-        // const data = await response.json();
-        const data: Member[] = [
-          {
-            id: "1",
-            firstName: "John",
-            lastName: "Doe",
-            email: "123@123.com",
-          }
-        ];
+        const data = await getMembers();
         setMembers(data);
       } catch (e) {
         if (e instanceof Error) {
@@ -60,9 +52,10 @@ export default function AdminMembersPage() {
     fetchMembers();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
+  function handleAddMember() {
+    setAddOpen(true);
   }
+
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -75,13 +68,16 @@ export default function AdminMembersPage() {
         <MembersToolbar 
           search="test"
           onSearchChange={(search) => console.log(search)}
-          onAdd={() => console.log("Add Member")}
+          onAdd={handleAddMember}
           onImport={() => console.log("Import Members")}
           onExport={() => console.log("Export Members")}
           onFilter={() => console.log("Edit Members")}
         />
       </div>
-      <MembersList members={members}/>
+      <MembersList members={members} isLoading={isLoading}/>
+      {isAddOpen && (
+        <AddMemberModal isOpen={isAddOpen} onClose={() => setAddOpen(false)} />
+      )}
     </div>
   );
 }

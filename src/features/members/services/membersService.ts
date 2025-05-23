@@ -1,3 +1,5 @@
+"use server";
+
 // src/services/membersService.ts
 import { sql } from "@/lib/db"
 import type { Member } from "../types/Member"

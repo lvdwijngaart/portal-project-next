@@ -25,9 +25,9 @@ export default function MembersToolbar({
     <div className="toolbar">
       <div className="left">
         <h2 className="heading">Members List</h2>
-        <button className="addMember">Add Member</button>
-        <button className="importMembers">Import Members</button>
-        <button className="exportMembers">Export Members (Excel)</button>
+        <button className="addMember" onClick={() => onAdd()}>Add Member</button>
+        <button className="importMembers" onClick={() => onImport()}>Import Members</button>
+        <button className="exportMembers" onClick={() => onExport()}>Export Members (Excel)</button>
       </div>
       <div className="right">
         <input type="text" placeholder="Search..." className="searchInput" />

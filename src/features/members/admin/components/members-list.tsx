@@ -5,6 +5,7 @@ import "../../styles/members-list.css";
 
 type MembersListProps = {
   members: Member[];
+  isLoading: boolean;
 };
 
 /**
@@ -22,7 +23,7 @@ type MembersListProps = {
  * @example
  * <MembersList members={[{ id: 1, firstName: 'John', lastName: 'Doe', email: 'john@example.com', phone: '1234567890' }]} />
  */
-export default function MembersList({ members }: MembersListProps) {
+export default function MembersList({ members, isLoading }: MembersListProps) {
 
   return (
     <div className="container">
@@ -39,6 +40,20 @@ export default function MembersList({ members }: MembersListProps) {
             </tr>
           </thead>
           <tbody>
+            {isLoading && (
+              <tr>
+                <td colSpan={4} className="loading">
+                  Loading...
+                </td>
+              </tr>
+            )}
+            {!isLoading && members.length === 0 && (
+              <tr>
+                <td colSpan={4} className="noData">
+                  No members found.
+                </td>
+              </tr>
+            )}
             {members.map((member) => (
               <tr key={member.id}>
                 <td>{`${member.firstName} ${member.lastName}`}</td>
