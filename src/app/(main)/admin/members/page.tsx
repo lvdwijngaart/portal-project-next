@@ -1,13 +1,15 @@
 "use client";
 
 import { Member } from "@prisma/client";
+import { useEffect, useState } from "react";
+
 import MembersList from "@/features/members/admin/components/members-list";
-import { use, useEffect, useState } from "react";
 import MembersToolbar from "@/features/members/admin/components/members-toolbar";
-import { getMembers } from "@/features/members/services/membersService";
 import AddMemberModal from "@/features/members/admin/components/add-modal";
 import ImportMemberModal from "@/features/members/admin/components/import-modal";
+import DeleteMemberModal from "@/features/members/admin/components/delete-modal";
 
+import { deleteMember, getMembers } from "@/features/members/services/membersService";
 
 /**
  * AdminMembersPage component
@@ -17,12 +19,12 @@ import ImportMemberModal from "@/features/members/admin/components/import-modal"
  * * Member management:
  * * * View a list of all members
  * * * Add/Edit/Delete members
- * * * View member details
- * * * Assign/Remove members to/from teams	
- * * * Assign/Remove members to/from committees
- * * * Assign a role to a member
+ * * * View member details @todo
+ * * * Assign/Remove members to/from teams	@todo
+ * * * Assign/Remove members to/from committees @todo
+ * * * Assign a role to a member @todo
  * * Settings:
- * * * Manage member settings (e.g., fields, default values, etc.)
+ * * * Manage member settings (e.g., fields, default values, etc.) @todo
  * @todo Devise more detailed requirements for this page.
  * 
  * @returns JSX element representing the admin members page.
@@ -34,7 +36,12 @@ export default function AdminMembersPage() {
 
   // Modal states
   const [isAddOpen, setAddOpen] = useState(false);
+  const [isDeleteOpen, setDeleteOpen] = useState(false);
   const [isImportOpen, setImportOpen] = useState(false);
+  const [isExportOpen, setExportOpen] = useState(false);
+
+  const [memberToEdit, setMemberToEdit] = useState<Member | null>(null);
+  const [memberToDelete, setMemberToDelete] = useState<Member | null>(null);
 
   // Fetch members from the server when the component mounts
   useEffect(() => {
@@ -56,19 +63,30 @@ export default function AdminMembersPage() {
     fetchMembers();
   }, []);
 
-  // When the Add Member modal is opened in the toolbar, set the state to open
-  function openAddModal() {
-    setAddOpen(true);
+  // Handle the submission of the Add/Edit form
+  function handleAddEditSubmit(newMember: Member) {
+    // If editing, update the member in the list
+    if (memberToEdit) {
+      setMembers((prevMembers) =>
+        prevMembers.map((member) =>
+          member.id === newMember.id ? newMember : member
+        )
+      );
+    } else {
+      // If adding, append the new member to the list
+      setMembers((prevMembers) => [...prevMembers, newMember]);
+    }
   }
 
-  // When the Import Member modal is opened in the toolbar, set the state to open
-  function openImportModal() {
-    setImportOpen(true);
-  }
-
-  // When the export button is clicked, for now log the action
-  function handleExport() {
-    console.log("Export Members");
+  // Handle the deletion of a member upon confirmation
+  function handleDelete() {
+    if (memberToDelete) {
+      deleteMember(memberToDelete.id);    // Call the delete (from db) function from the service
+      setMembers((prevMembers) =>
+        prevMembers.filter((member) => member.id !== memberToDelete.id)
+      );
+      setDeleteOpen(false);
+    }
   }
 
   // Handle error state. Errors can occur during data fetching
@@ -84,22 +102,42 @@ export default function AdminMembersPage() {
         <MembersToolbar 
           search="test"
           onSearchChange={(search) => console.log(search)}
-          onAdd={openAddModal}
-          onImport={openImportModal}
-          onExport={handleExport}
+          onAdd={() => {
+            setMemberToEdit(null);        // Adding a new member, so don't set memberToEdit
+            setAddOpen(true);             // Open the add/edit modal
+          }}
+          onImport={() => setImportOpen(true)}                  // Open the import modal
+          onExport={() => setExportOpen(true)}
           onFilter={() => console.log("Edit Members")}
         />
       </div>
-      <MembersList members={members} isLoading={isLoading}/>
+
+      <MembersList 
+        members={members} 
+        isLoading={isLoading} 
+        onEdit={(member) => {            
+          setMemberToEdit(member);          // Set the member to edit
+          setAddOpen(true);                 // Open the add/edit modal
+        }} 
+        onDelete={(member) => {
+          setMemberToDelete(member);        // Set the member to delete
+          setDeleteOpen(true);              // Open the delete modal
+        }}
+      />
+
       {isAddOpen && (
         <AddMemberModal 
           isOpen={isAddOpen} 
-          onClose={() => setAddOpen(false)} // Close the modal
-          onSubmit={(newMember) => setMembers(prev => [...prev, newMember])}  // Add new member to the list of members being displayed
+          onClose={() => setAddOpen(false)}     // Close the modal
+          onSubmit={handleAddEditSubmit}        // Handle the submission of the form
+          memberToEdit={memberToEdit}           // Pass the member to edit
         />
       )}
       {isImportOpen && (
         <ImportMemberModal isOpen={isImportOpen} onClose={() => setImportOpen(false)} />
+      )}
+      {isDeleteOpen && memberToDelete && (
+        <DeleteMemberModal isOpen={isDeleteOpen} onClose={() => setDeleteOpen(false)} onDelete={handleDelete} member={memberToDelete} />
       )}
     </div>
   );

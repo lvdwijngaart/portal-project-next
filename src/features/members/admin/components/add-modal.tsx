@@ -1,15 +1,17 @@
 
 
-import { createMember } from "../../services/membersService";
-import "../../styles/add-modal.css"; 
+import { createMember, updateMember } from "../../services/membersService";
 import React, { useState, useTransition } from "react";
 import type { Member, Prisma } from "@prisma/client"
+
+import "../styles/add-modal.css";
 
 
 interface AddMemberModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (submittedMember: Member) => void;
+  memberToEdit?: Member | null;
 }
 
 /**
@@ -22,7 +24,7 @@ interface AddMemberModalProps {
  * @param onSubmit - Optional function to call on successful addition of a member. 
  * @returns JSX.Element representing the AddMemberModal component.
  */
-export default function AddMemberModal({ isOpen, onClose, onSubmit }: AddMemberModalProps) {
+export default function AddMemberModal({ isOpen, onClose, onSubmit, memberToEdit }: AddMemberModalProps) {
 
   const [error, setError] = useState('');
   const [isPending, startTransition] = useTransition(); // Responsible for managing loading state
@@ -46,6 +48,7 @@ export default function AddMemberModal({ isOpen, onClose, onSubmit }: AddMemberM
     try {
       // Create a member object from the form data
       const member = {
+        id: memberToEdit?.id,
         firstName: formData.get("firstName") as string,
         lastName: formData.get("lastName") as string,
         email: formData.get("email") as string,
@@ -53,9 +56,12 @@ export default function AddMemberModal({ isOpen, onClose, onSubmit }: AddMemberM
         // Add any other required fields with default or null values as needed
       };
 
-      // Insert the new member into the database
-      const newMember = await createMember(member);
-      onSubmit(newMember);
+      // Use updateMember if editing, otherwise create a new member
+      const updatedMember = memberToEdit 
+        ? await updateMember(memberToEdit.id, member)
+        : await createMember(member);
+
+      onSubmit(updatedMember);
       onClose();
     } catch (e) {
       console.error("Error:", e);
@@ -66,7 +72,9 @@ export default function AddMemberModal({ isOpen, onClose, onSubmit }: AddMemberM
   return (
     <div className="modal-overlay" onClick={handleOverlayClick}>
       <div className="modal-content">
-        <h2> Add Member</h2>
+        <h2> {memberToEdit ? 'Edit Member' : 'Add Member'} </h2>
+
+        {error && <div className="error-message">{error}</div>}
         
         <form action={(formData) => {
           startTransition(() => handleFormAction(formData));
@@ -78,6 +86,7 @@ export default function AddMemberModal({ isOpen, onClose, onSubmit }: AddMemberM
               id="firstName" 
               name="firstName" 
               placeholder="First Name" 
+              defaultValue={memberToEdit?.firstName || ''}
               required 
             />
           </div>
@@ -89,6 +98,7 @@ export default function AddMemberModal({ isOpen, onClose, onSubmit }: AddMemberM
               id="lastName" 
               name="lastName" 
               placeholder="Last Name" 
+              defaultValue={memberToEdit?.lastName || ''}
               required 
             />
           </div>
@@ -100,6 +110,7 @@ export default function AddMemberModal({ isOpen, onClose, onSubmit }: AddMemberM
               id="email" 
               name="email" 
               placeholder="Email" 
+              defaultValue={memberToEdit?.email || ''}
               required 
             />
           </div>
@@ -111,6 +122,7 @@ export default function AddMemberModal({ isOpen, onClose, onSubmit }: AddMemberM
               id="phone" 
               name="phone" 
               placeholder="Phone" 
+              defaultValue={memberToEdit?.phone || ''}
             />
           </div>
           
@@ -128,8 +140,9 @@ export default function AddMemberModal({ isOpen, onClose, onSubmit }: AddMemberM
               className="submit-button"
               disabled={isPending}
             >
-              {isPending ? "Adding..." : "Add Member"}
-            </button>
+              {isPending
+                ? memberToEdit ? "Saving..." : "Adding..."
+                : memberToEdit ? "Save Changes" : "Add Member"}   </button>
           </div>
         </form>
       </div>

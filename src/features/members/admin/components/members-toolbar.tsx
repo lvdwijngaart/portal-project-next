@@ -2,7 +2,7 @@
 import React from "react"
 import styles from "./MembersToolbar.module.css"
 
-import "../../styles/members-toolbar.css";
+import "../styles/members-toolbar.css";
 
 type Props = {
   search: string

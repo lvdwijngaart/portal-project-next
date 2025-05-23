@@ -2,7 +2,6 @@
 "use client"
 
 import React from 'react';
-import './NavBar.css';
 // import { enabledModules } from '../../config/modules.config';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -12,7 +11,8 @@ import Image from 'next/image';
 import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
 
-type Props = { session: Session | null }
+import './NavBar.css';
+
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -49,7 +49,11 @@ export default function NavBar() {
         </div>
         <nav className="sidebar-nav">
           {(isAdminPage ? AdminPages : UserPages).map((page) => (
-            <Link href={page.route} key={page.label}>
+            <Link 
+              href={page.route} 
+              key={page.label}
+              className={pathname === page.route ? 'active' : ''}
+            >
               {page.label}
             </Link>
           ))}

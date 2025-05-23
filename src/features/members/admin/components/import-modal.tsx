@@ -1,6 +1,6 @@
 
 
-import "../../styles/import-modal.css"; 
+import "../styles/import-modal.css"; 
 
 interface ImportMemberModalProps {
   isOpen: boolean;
