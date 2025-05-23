@@ -1,8 +1,9 @@
 "use client";
 
 import { Member } from "@/features/members/types/Member";
-import MembersList from "@/features/members/components/members-list";
+import MembersList from "@/features/members/admin/components/members-list";
 import { use, useEffect, useState } from "react";
+import MembersToolbar from "@/features/members/admin/components/members-toolbar";
 
 
 /**
@@ -71,9 +72,15 @@ export default function AdminMembersPage() {
     <div className="admin-page members-page">
       <div className="admin-header">
         {/* Tab component */}
-        <h1>Admin Members Page</h1> 
+        <MembersToolbar 
+          search="test"
+          onSearchChange={(search) => console.log(search)}
+          onAdd={() => console.log("Add Member")}
+          onImport={() => console.log("Import Members")}
+          onExport={() => console.log("Export Members")}
+          onFilter={() => console.log("Edit Members")}
+        />
       </div>
-      <p>This is the admin members page.</p>
       <MembersList members={members}/>
     </div>
   );
