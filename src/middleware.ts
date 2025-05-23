@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
-import { auth } from "@/features/auth/auth";
+import { auth } from "@/features/auth/services/auth";
 
 
 export default async function middleware(request: NextRequest) {
@@ -12,9 +12,9 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // if (request.nextUrl.pathname === "/login" && isAuth) {
-  //   return NextResponse.redirect(new URL("/dashboard", request.url));
-  // }
+  if (request.nextUrl.pathname === "/login" && isAuth) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
   return NextResponse.next(); 
 
