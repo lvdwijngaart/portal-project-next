@@ -36,7 +36,10 @@ export default [
       }],
 
       // no-namespace rule off
-      '@typescript-eslint/no-namespace': 'off'
+      '@typescript-eslint/no-namespace': 'off',
+
+      // Add this line to allow empty object types (for Prisma)
+      '@typescript-eslint/no-empty-object-type': 'off'
     },
   },
 ];
