@@ -8,47 +8,114 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model Member {
-  id             String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId         String?         @map("user_id") @db.Uuid
-  firstName      String          @map("first_name")
-  lastName       String          @map("last_name")
-  email          String          @unique
-  phone          String?
-  address        String?
-  emergencyName  String?         @map("emergency_name")
-  emergencyPhone String?         @map("emergency_phone")
-  birthDate      DateTime?       @map("birth_date") @db.Date
-  study          String?
-  fieldPosition  String?         @map("field_position")
-  shirtNumber    String?         @map("shirt_number")
-  memberSince    DateTime        @default(dbgenerated("CURRENT_DATE")) @map("member_since") @db.Date
-  memberType     membership_type @default(member) @map("member_type")
-  createdAt      DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt      DateTime        @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-  users          users?          @relation(fields: [userId], references: [id], onUpdate: NoAction)
-
-  @@map("members")
-}
-
-model users {
-  id         String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name       String    @db.VarChar(255)
-  email      String    @unique
-  password   String
-  created_at DateTime? @default(now()) @db.Timestamptz(6)
-  members    Member[]
-}
+//--- Enums
 
 enum membership_type {
-  member
-  reunion
-  trainer
-  guest
+  Member
+  Reunion
+  Trainer
+  Guest
 }
 
 enum status {
   active
   inactive
   archived
+}
+
+//--- Models
+
+model User {
+  id         String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name       String    @db.VarChar(255)
+  email      String    @unique
+  password   String
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  members    Member[]
+
+  @@map("users")
+}
+
+
+model Member {
+  id                String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId            String?              @map("user_id") @db.Uuid
+  firstName         String               @map("first_name")
+  lastName          String               @map("last_name")
+  email             String               @unique
+  phone             String?
+  address           String?
+  emergencyName     String?              @map("emergency_name")
+  emergencyPhone    String?              @map("emergency_phone")
+  birthDate         DateTime?            @map("birth_date") @db.Date
+  study             String?
+  fieldPosition     String?              @map("field_position")
+  shirtNumber       String?              @map("shirt_number")
+  memberSince       DateTime             @default(dbgenerated("CURRENT_DATE")) @map("member_since") @db.Date
+  memberType        membership_type      @default(member) @map("member_type")
+  createdAt         DateTime             @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime             @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  // relations
+  user              User?                 @relation(fields: [userId], references: [id], onUpdate: NoAction)
+  teamSeasons       TeamSeasonMember[]    // historical memberships
+
+  @@map("members")
+}
+
+model Team {
+  id                String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String                @unique
+  createdAt         DateTime              @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  // relation to per-season data
+  seasons           TeamSeason[]
+
+  @@map("teams")
+}
+
+model Season {
+  id                String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String                // e.g. "2024-2025"
+  startsAt          DateTime
+  endsAt            DateTime
+  active            Boolean               @default(false)
+
+  // relation to per-team data
+  teamSeasons       TeamSeason[]
+
+  @@map("seasons") 
+}
+
+model TeamSeason {
+  id                String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  teamId            String                @db.Uuid
+  seasonId          String                @db.Uuid
+
+  theme             String?               // that season's team theme
+  poule             String?
+
+  // relations
+  team              Team                  @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  season            Season                @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, seasonId])            // one row per TeamxSeason
+  @@map("team_seasons")
+}
+
+model TeamSeasonMember {
+  id                String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  teamSeasonId      String                @db.Uuid
+  memberId          String                @db.Uuid
+  
+  isCaptain         Boolean               @default(false)
+  joinedAt          DateTime?             // if they joined mid-season
+  leftAt            DateTime?             // if they left before season end
+
+  // relations
+  teamSeasonId      TeamSeason            @relation(fields: [teamSeasonId], references: [id], onDelete: Cascade)
+  member            Member                @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@unique([teamSeasonId, memberId])      // prevent dupicate membership rows
+  @@map("team_season_members")
 }
