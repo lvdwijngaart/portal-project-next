@@ -52,7 +52,7 @@ model Member {
   fieldPosition     String?              @map("field_position")
   shirtNumber       String?              @map("shirt_number")
   memberSince       DateTime             @default(dbgenerated("CURRENT_DATE")) @map("member_since") @db.Date
-  memberType        membership_type      @default(member) @map("member_type")
+  memberType        membership_type      @default(Member) @map("member_type")
   createdAt         DateTime             @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt         DateTime             @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
 
@@ -98,6 +98,7 @@ model TeamSeason {
   // relations
   team              Team                  @relation(fields: [teamId], references: [id], onDelete: Cascade)
   season            Season                @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  members           TeamSeasonMember[]
 
   @@unique([teamId, seasonId])            // one row per TeamxSeason
   @@map("team_seasons")
@@ -113,7 +114,7 @@ model TeamSeasonMember {
   leftAt            DateTime?             // if they left before season end
 
   // relations
-  teamSeasonId      TeamSeason            @relation(fields: [teamSeasonId], references: [id], onDelete: Cascade)
+  teamSeason      TeamSeason            @relation(fields: [teamSeasonId], references: [id], onDelete: Cascade)
   member            Member                @relation(fields: [memberId], references: [id], onDelete: Cascade)
 
   @@unique([teamSeasonId, memberId])      // prevent dupicate membership rows
