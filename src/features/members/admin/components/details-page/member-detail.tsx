@@ -72,7 +72,7 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
               alt={`${member.firstName} ${member.lastName}`} 
               className="rounded-full border-2 border-gray-300"
             />
-            <h2 className="text-xl font-bold">{member.firstName} {member.lastName}'s Details</h2>
+            <h2 className="text-xl font-bold">{member.firstName} {member.lastName}&apos;s Details</h2>
           </div>
           <button 
             onClick={onClose}
