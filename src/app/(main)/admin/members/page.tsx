@@ -10,6 +10,7 @@ import ImportMemberModal from "@/features/members/admin/components/import-modal"
 import DeleteMemberModal from "@/features/members/admin/components/delete-modal";
 
 import { deleteMember, getMembers } from "@/features/members/services/membersService";
+import MemberDetail from "@/features/members/admin/components/details-page/member-detail";
 
 /**
  * AdminMembersPage component
@@ -40,6 +41,7 @@ export default function AdminMembersPage() {
   const [isImportOpen, setImportOpen] = useState(false);
   const [isExportOpen, setExportOpen] = useState(false);
 
+  const [memberForView, setMemberForView] = useState<Member | null>(null);
   const [memberToEdit, setMemberToEdit] = useState<Member | null>(null);
   const [memberToDelete, setMemberToDelete] = useState<Member | null>(null);
 
@@ -115,6 +117,9 @@ export default function AdminMembersPage() {
       <MembersList 
         members={members} 
         isLoading={isLoading} 
+        onMemberClick={(member) => {
+          setMemberForView(member);        // Set the member to view
+        }}
         onEdit={(member) => {            
           setMemberToEdit(member);          // Set the member to edit
           setAddOpen(true);                 // Open the add/edit modal
@@ -138,6 +143,13 @@ export default function AdminMembersPage() {
       )}
       {isDeleteOpen && memberToDelete && (
         <DeleteMemberModal isOpen={isDeleteOpen} onClose={() => setDeleteOpen(false)} onDelete={handleDelete} member={memberToDelete} />
+      )}
+
+      {memberForView && (
+        <MemberDetail 
+          onClose={() => setMemberForView(null)} 
+          member={memberForView}
+        />
       )}
     </div>
   );

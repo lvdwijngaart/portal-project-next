@@ -6,6 +6,7 @@ import "../../styles/members-list.css";
 type MembersListProps = {
   members: Member[];
   isLoading: boolean;
+  onMemberClick: (member: Member) => void;
   onEdit: (member: Member) => void;
   onDelete: (member: Member) => void;
 };
@@ -25,7 +26,7 @@ type MembersListProps = {
  * @example
  * <MembersList members={[{ id: 1, firstName: 'John', lastName: 'Doe', email: 'john@example.com', phone: '1234567890' }]} />
  */
-export default function MembersList({ members, isLoading, onEdit, onDelete }: MembersListProps) {
+export default function MembersList({ members, isLoading, onMemberClick, onEdit, onDelete }: MembersListProps) {
 
   return (
     <div className="container">
@@ -57,7 +58,7 @@ export default function MembersList({ members, isLoading, onEdit, onDelete }: Me
               </tr>
             )}
             {members.map((member) => (
-              <tr key={member.id}>
+              <tr key={member.id} onClick={() => onMemberClick(member)}>
                 <td>{`${member.firstName} ${member.lastName}`}</td>
                 <td>{member.email}</td>
                 <td>{member.phone}</td>

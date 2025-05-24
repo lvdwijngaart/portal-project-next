@@ -1,0 +1,89 @@
+
+.hero {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Contact details layout */
+.contact-det-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.contact-icon {
+  align-items: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+  padding-top: 2px; /* Align icon with text */
+}
+
+.contact-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-detail-title {
+  font-weight: 500;
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin-bottom: 2px;
+}
+
+.contact-detail-value {
+  font-size: 1rem;
+}
+
+/* src/components/tabbar.css */
+
+.tab-bar {
+  border-bottom: 1px solid #e5e7eb;
+  margin: 1rem 0.5rem;
+}
+
+.tab-list {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 2rem;              /* space between tabs */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tab-item {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.75rem 0;     /* vertical padding only */
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #6b7280;         /* gray text */
+  transition: color 0.2s;
+}
+
+.tab-item:hover {
+  color: #4f46e5;         /* darker on hover */
+}
+
+.tab-item.active {
+  color: #4f46e5;         /* almost black */
+}
+
+.tab-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;           /* just below the text */
+  left: 0;
+  width: 100%;
+  height: 3px;            /* thickness of the underline */
+  background-color: #4f46e5; /* your primary accent color */
+  border-radius: 2px 2px 0 0;
+}
