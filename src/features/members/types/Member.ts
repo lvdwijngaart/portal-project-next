@@ -29,6 +29,8 @@ export interface Member {
   emergencyName?: string
   emergencyPhone?: string
 
+  // iban?: string
+  // bic?: string
   birthDate?: Date
 
   study?: string
