@@ -3,11 +3,13 @@ import { Member } from "@prisma/client";
 
 import "../../styles/member-detail.css"; 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InformationPanel from "./information-panel";
 import CommitteeHistoryPanel from "./committee-history-panel";
 import MemberDetailsPageHeader from "./header";
 import TabBar from "./tab-bar";
+import TeamHistoryPanel from "./team-history";
+import { getMemberCurrentTeam } from "../../services/memberRelationsService";
 
 interface MemberDetailProps {
   onClose: () => void;
@@ -39,19 +41,53 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
     "Settings",
   ];
 
-  // const onTabChange = (tab: string) => {
-  //   console.log("Selected:", tab);
-  //   // show/hide the corresponding panel...
-  // };
+  if (!member) {
+    return null;
+  }
+
   const initialTab = tabs[0];
-  
   const [active, setActive] = useState(initialTab ?? tabs[0]);
+
+  // const currentCommittees = await getMemberCurrentCommittees(member.id);
+  // const committeeHistory = await getMemberCommitteeHistory(member.id);
+  const [currentTeam, setCurrentTeam] = useState<{id: string, name: string} | null>(null);
+  const [teamHistory, setTeamHistory] = useState<{ id: string; name: string; startDate: string; endDate: string; }[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // useEffect that fetches more data about the member
+  // such as current team, team history, current committees, committee history, etc.
+  useEffect(() => {
+    if (!member) return;
+    setLoading(true);
+    Promise.all([         // Fetch data through API
+      fetch(`/api/members/${member.id}/current-team`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch current team");
+        }
+        return res.json();
+      }),
+    ])
+    .then(([team]) => {
+      console.log("Current team:", team);
+      setCurrentTeam(team);
+      // setTeamHistory(history);
+    })
+    .catch((error) => {
+      console.error("Error fetching member data:", error);
+    })
+    .finally(() => {
+      setLoading(false); // Set loading to false after fetching data
+    });
+  }, [member.id]);
+
 
   const onTabChange = (tab: string) => {
     setActive(tab);
     // onTabChange(tab);
     // onSelect?.(tab);
   };
+
 
   return (
     <>
@@ -73,8 +109,8 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
         {/* Content */}
         <div className="p-6 m-6 border border-gray-200 rounded-lg bg-white shadow-md">
           
-          {active == tabs[0] && <InformationPanel member={member}/>}
-          {active == tabs[1] && <div>Team History Content</div>}
+          {active == tabs[0] && <InformationPanel member={member} teamData={currentTeam} isLoading={loading}/>}
+          {/* {active == tabs[1] && <TeamHistoryPanel teamHistory={undefined} isLoading={false} />} */}
           {active == tabs[2] && <CommitteeHistoryPanel />}
           
         </div>

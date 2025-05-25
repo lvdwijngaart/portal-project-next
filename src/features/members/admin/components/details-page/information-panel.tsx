@@ -2,11 +2,32 @@ import { capitalize } from "@/lib/helperFunctions";
 import { Member } from "@prisma/client";
 import Image from "next/image";
 
+interface InformationPanelProps {
+  member: Member,
+  teamData?: { 
+    id: string; 
+    name: string 
+  } | null, 
+  isLoading?: boolean;
+}
 
+/**
+ * InformationPanel component displays detailed information about a member.
+ * 
+ * It includes the member's personal details, team affiliation, current committees and contact information.
+ * It is designed to be used in the context of a member's detail page, providing a comprehensive overview of the member's profile.
+ * 
+ * @param member - The member object containing personal details.
+ * @param teamData - Optional team data object containing the current team id and name. 
+ * @returns JSX.Element
+ */
+export default function InformationPanel({ member, teamData, isLoading }: InformationPanelProps) {
+  
 
-export default function InformationPanel({ member }: { member: Member }) {
   return (
     <div className="information-panel">
+
+      {/* Header - Name, memberSince, edit button */}
       <div className="hero mb-6">
         <div>
           <h1 className="text-lg font-bold">{member.firstName} {member.lastName}</h1>
@@ -17,6 +38,7 @@ export default function InformationPanel({ member }: { member: Member }) {
         </button>
       </div>
 
+      {/* Member Information */}
       <h2 className="text-lg font-bold mb-4">Member Information</h2>
       <div className="member-details mb-6">
         {/* Placeholder for member details */}
@@ -50,8 +72,30 @@ export default function InformationPanel({ member }: { member: Member }) {
         </div>
       </div>
 
+      {/* Team Information */}
+      <div className="mb-6">
+        <h2 className="text-lg font-bold mb-4">Team</h2>
+        <span className="text-gray-500">
+            {isLoading
+            ? "Loading team information..."
+            : teamData?.name
+              ? `Member of ${teamData.name}`
+              : "Not assigned to any team"}
+        </span>
+      </div>
+
+      {/* <div className="mb-6">
+        <h2 className="text-lg font-bold mb-4">Committees</h2>
+        <span className="text-gray-500">
+          {member?.committees && member.committees.length > 0
+            ? member.committees.map((committee) => committee.name).join(", ")
+            : "No committees assigned"}
+        </span>
+      </div> */}
+
+      {/* Contact Information */}
       <div className="contact-info">
-        <h3 className="text-lg font-bold mb-2">Contact Information</h3>
+        <h2 className="text-lg font-bold mb-2">Contact Information</h2>
         <div className="contact-det-container">
           <Image src="/mail-icon.png" alt="Email" width={24} height={24} className="contact-icon w-4 h-4 inline-block mr-2" />
           <div className="contact-content">

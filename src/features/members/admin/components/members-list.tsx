@@ -82,7 +82,6 @@ export default function MembersList({ members, isLoading, onMemberClick, onEdit,
                 </td>
               </tr>
             ))}
-            {/* Map through members data here */}
           </tbody>
         </table>
       </div>
