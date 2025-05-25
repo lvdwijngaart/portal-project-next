@@ -8,6 +8,10 @@ interface InformationPanelProps {
     id: string; 
     name: string 
   } | null, 
+  committeeData?: { 
+    id: string; 
+    name: string 
+  }[] | null,
   isLoading?: boolean;
 }
 
@@ -21,7 +25,7 @@ interface InformationPanelProps {
  * @param teamData - Optional team data object containing the current team id and name. 
  * @returns JSX.Element
  */
-export default function InformationPanel({ member, teamData, isLoading }: InformationPanelProps) {
+export default function InformationPanel({ member, teamData, committeeData, isLoading }: InformationPanelProps) {
   
 
   return (
@@ -75,13 +79,30 @@ export default function InformationPanel({ member, teamData, isLoading }: Inform
       {/* Team Information */}
       <div className="mb-6">
         <h2 className="text-lg font-bold mb-4">Team</h2>
-        <span className="text-gray-500">
-            {isLoading
-            ? "Loading team information..."
-            : teamData?.name
-              ? `Member of ${teamData.name}`
-              : "Not assigned to any team"}
-        </span>
+        {isLoading
+          ? (<span>Loading team information...</span>)
+          : (
+          <span className="text-black-600 rounded-full py-2 px-5 bg-gray-200 inline-block">
+            {teamData?.name
+            ? `${teamData.name}`
+            : "Not assigned to any team"}
+          </span>
+        )}
+      </div>
+
+      <div className="mb-6">
+        <h2 className="text-lg font-bold mb-4">Committees</h2>
+        {isLoading                                              // If loading, show a loading message
+          ? (<span>Loading committee information...</span>)
+          : committeeData && committeeData.length > 0           // If there are committees, map through them
+            ? committeeData.map((committee) => (
+              <span key={committee.id} className="text-black-600 rounded-full py-2 px-5 bg-gray-200 inline-block mr-2 mb-2">
+              {committee.name}
+                </span>
+            )): (                                               // If no committees, show a message
+              <span className="text-gray-500">No committees assigned</span>
+            )
+        }
       </div>
 
       {/* <div className="mb-6">

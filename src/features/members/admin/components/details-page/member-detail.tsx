@@ -1,15 +1,16 @@
 // import { Member } from "@prisma/client";
 import { Member } from "@prisma/client";
 
-import "../../styles/member-detail.css"; 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import InformationPanel from "./information-panel";
 import CommitteeHistoryPanel from "./committee-history-panel";
 import MemberDetailsPageHeader from "./header";
 import TabBar from "./tab-bar";
 import TeamHistoryPanel from "./team-history";
 import { getMemberCurrentTeam } from "../../services/memberRelationsService";
+
+import "../../styles/member-detail.css"; 
 
 interface MemberDetailProps {
   onClose: () => void;
@@ -88,7 +89,6 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
     });
   }, [member.id]);
 
-
   const onTabChange = (tab: string) => {
     setActive(tab);
     // onTabChange(tab);
@@ -112,14 +112,19 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
 
         {/* Tab Bar Component */}
         <TabBar tabs={tabs} activeTab={active} onTabChange={onTabChange} />
-        
+
+
         {/* Content */}
-        <div className="p-6 m-6 border border-gray-200 rounded-lg bg-white shadow-md">
-          
-          {active == tabs[0] && <InformationPanel member={member} teamData={currentTeam} isLoading={loading}/>}
-          {active == tabs[1] && <TeamHistoryPanel teamHistory={teamHistory} isLoading={loading} />}
-          {active == tabs[2] && <CommitteeHistoryPanel />}
-          
+        <div className={`scrollable-content`}>
+          <div className="fade-top" />
+          <div className="p-6 m-6 border border-gray-200 rounded-lg bg-white shadow-md">
+            
+            {active == tabs[0] && <InformationPanel member={member} teamData={currentTeam} isLoading={loading}/>}
+            {active == tabs[1] && <TeamHistoryPanel teamHistory={teamHistory} isLoading={loading} />}
+            {active == tabs[2] && <CommitteeHistoryPanel />}
+            
+          </div>
+          <div className="fade-bottom" />
         </div>
       </div>
     </>
