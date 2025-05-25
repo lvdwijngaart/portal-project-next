@@ -3,12 +3,11 @@ import { Member } from "@prisma/client";
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import InformationPanel from "./information-panel";
-import CommitteeHistoryPanel from "./committee-history-panel";
 import MemberDetailsPageHeader from "./header";
 import TabBar from "./tab-bar";
+import InformationPanel from "./information-panel";
 import TeamHistoryPanel from "./team-history";
-import { getMemberCurrentTeam } from "../../services/memberRelationsService";
+import CommitteeHistoryPanel from "./committee-history";
 
 import "../../styles/member-detail.css"; 
 
@@ -39,7 +38,6 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
     "Committees",
     "Activity",
     "Documents",
-    "Settings",
   ];
 
   if (!member) {
@@ -121,7 +119,7 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
             
             {active == tabs[0] && <InformationPanel member={member} teamData={currentTeam} isLoading={loading}/>}
             {active == tabs[1] && <TeamHistoryPanel teamHistory={teamHistory} isLoading={loading} />}
-            {active == tabs[2] && <CommitteeHistoryPanel />}
+            {active == tabs[2] && <CommitteeHistoryPanel committeeHistory={[]} isLoading={loading}/>}
             
           </div>
           <div className="fade-bottom" />
