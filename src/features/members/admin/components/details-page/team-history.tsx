@@ -1,38 +1,55 @@
 
 
+interface TeamHistoryProps {
+  teamHistory: {
+    team: { id: string; name: string };
+    season: { id: string; name: string };
+  }[], 
+  isLoading: boolean;
+}
+
 export default function TeamHistoryPanel({
   teamHistory,
   isLoading,
-}: {
-  teamHistory: { id: string; name: string; startDate: string; endDate: string }[];
-  isLoading: boolean;
-}) {
+}: TeamHistoryProps) {
+
   return (
     <div className="team-history">
-      <h2>Team History</h2>
+      <h1 className="text-lg font-bold mb-4">Team History</h1>
       {isLoading ? (
         <p>Loading...</p>
       ) : teamHistory.length === 0 ? (
         <p>No team history available.</p>
       ) : (
-        <table className="team-history-table">
-          <thead>
-            <tr>
-              <th>Team Name</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {teamHistory.map((history) => (
-              <tr key={history.id}>
-                <td>{history.name}</td>
-                <td>{new Date(history.startDate).toLocaleDateString()}</td>
-                <td>{history.endDate ? new Date(history.endDate).toLocaleDateString() : "Present"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <ul>
+          {teamHistory.map((history) => (
+            <li key={history.team.id} className="mb-2">
+              <div className="text-gray-500">
+                {history.season.name}
+              </div>
+              <span className="font-semibold">{history.team.name}</span> 
+            </li>
+          ))}
+        </ul>
+        
+        // <table className="team-history-table">
+        //   <thead>
+        //     <tr>
+        //       <th>Team Name</th>
+        //       <th>Season</th>
+        //       <th>End Date</th>
+        //     </tr>
+        //   </thead>
+        //   <tbody>
+        //     {teamHistory.map((history) => (
+        //       <tr key={history.team.id}>
+        //         <td>{history.team.name}</td>
+        //         <td>{history.season.name}</td>
+        //         <td></td>
+        //       </tr>
+        //     ))}
+        //   </tbody>
+        // </table>
       )}
     </div>
   );

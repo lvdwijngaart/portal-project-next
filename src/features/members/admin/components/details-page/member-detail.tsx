@@ -51,7 +51,7 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
   // const currentCommittees = await getMemberCurrentCommittees(member.id);
   // const committeeHistory = await getMemberCommitteeHistory(member.id);
   const [currentTeam, setCurrentTeam] = useState<{id: string, name: string} | null>(null);
-  const [teamHistory, setTeamHistory] = useState<{ id: string; name: string; startDate: string; endDate: string; }[]>([]);
+  const [teamHistory, setTeamHistory] = useState<{ team: {id: string, name: string}, season: {id: string, name: string}}[]>([]);
   const [loading, setLoading] = useState(true);
 
   // useEffect that fetches more data about the member
@@ -67,11 +67,18 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
         }
         return res.json();
       }),
+      fetch(`/api/members/${member.id}/team-history`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch team history");
+        }
+        return res.json();
+      }),
     ])
-    .then(([team]) => {
-      console.log("Current team:", team);
+    .then(([team, teamHistory]) => {
+      console.log("teamHistory:", teamHistory);
       setCurrentTeam(team);
-      // setTeamHistory(history);
+      setTeamHistory(teamHistory || []);
     })
     .catch((error) => {
       console.error("Error fetching member data:", error);
@@ -110,7 +117,7 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
         <div className="p-6 m-6 border border-gray-200 rounded-lg bg-white shadow-md">
           
           {active == tabs[0] && <InformationPanel member={member} teamData={currentTeam} isLoading={loading}/>}
-          {/* {active == tabs[1] && <TeamHistoryPanel teamHistory={undefined} isLoading={false} />} */}
+          {active == tabs[1] && <TeamHistoryPanel teamHistory={teamHistory} isLoading={loading} />}
           {active == tabs[2] && <CommitteeHistoryPanel />}
           
         </div>
