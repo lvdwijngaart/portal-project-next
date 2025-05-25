@@ -12,7 +12,8 @@ import prisma from "@/lib/prisma";
  * @param params.id - The id of the member whose team history is requested.
  * @returns NextResponse - A JSON response containing the team information or null if no team is found.
  */
-export async function GET(_req: Request, { params: { id } }: { params: { id: string } }) {
+export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const id = (await params).id; // Await the promise to get the actual ID
   try {
     const rec = await prisma.teamSeasonMember.findMany({
       where: {

@@ -40,10 +40,6 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
     "Documents",
   ];
 
-  if (!member) {
-    return null;
-  }
-
   const initialTab = tabs[0];
   const [active, setActive] = useState(initialTab ?? tabs[0]);
 
@@ -52,6 +48,12 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
   const [currentTeam, setCurrentTeam] = useState<{id: string, name: string} | null>(null);
   const [teamHistory, setTeamHistory] = useState<{ team: {id: string, name: string}, season: {id: string, name: string}}[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const onTabChange = (tab: string) => {
+    setActive(tab);
+    // onTabChange(tab);
+    // onSelect?.(tab);
+  };
 
   // useEffect that fetches more data about the member
   // such as current team, team history, current committees, committee history, etc.
@@ -87,12 +89,9 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
     });
   }, [member.id]);
 
-  const onTabChange = (tab: string) => {
-    setActive(tab);
-    // onTabChange(tab);
-    // onSelect?.(tab);
-  };
-
+  if (!member) {
+    return null;
+  }
 
   return (
     <>
