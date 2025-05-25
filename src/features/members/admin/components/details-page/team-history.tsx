@@ -1,0 +1,56 @@
+
+
+interface TeamHistoryProps {
+  teamHistory: {
+    team: { id: string; name: string };
+    season: { id: string; name: string };
+  }[], 
+  isLoading: boolean;
+}
+
+export default function TeamHistoryPanel({
+  teamHistory,
+  isLoading,
+}: TeamHistoryProps) {
+
+  return (
+    <div className="team-history">
+      <h1 className="text-lg font-bold mb-4">Team History</h1>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : teamHistory.length === 0 ? (
+        <p>No team history available.</p>
+      ) : (
+        <ul>
+          {teamHistory.map((history) => (
+            <li key={history.team.id} className="mb-2">
+              <div className="text-gray-500">
+                {history.season.name}
+              </div>
+              <span className="font-semibold">{history.team.name}</span> 
+            </li>
+          ))}
+        </ul>
+        
+        // <table className="team-history-table">
+        //   <thead>
+        //     <tr>
+        //       <th>Team Name</th>
+        //       <th>Season</th>
+        //       <th>End Date</th>
+        //     </tr>
+        //   </thead>
+        //   <tbody>
+        //     {teamHistory.map((history) => (
+        //       <tr key={history.team.id}>
+        //         <td>{history.team.name}</td>
+        //         <td>{history.season.name}</td>
+        //         <td></td>
+        //       </tr>
+        //     ))}
+        //   </tbody>
+        // </table>
+      )}
+    </div>
+  );
+}

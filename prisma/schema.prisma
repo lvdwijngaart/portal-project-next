@@ -8,43 +8,13 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model Member {
-  id             String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId         String?         @map("user_id") @db.Uuid
-  firstName      String          @map("first_name")
-  lastName       String          @map("last_name")
-  email          String          @unique
-  phone          String?
-  address        String?
-  emergencyName  String?         @map("emergency_name")
-  emergencyPhone String?         @map("emergency_phone")
-  birthDate      DateTime?       @map("birth_date") @db.Date
-  study          String?
-  fieldPosition  String?         @map("field_position")
-  shirtNumber    String?         @map("shirt_number")
-  memberSince    DateTime        @default(dbgenerated("CURRENT_DATE")) @map("member_since") @db.Date
-  memberType     membership_type @default(member) @map("member_type")
-  createdAt      DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt      DateTime        @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-  users          users?          @relation(fields: [userId], references: [id], onUpdate: NoAction)
-
-  @@map("members")
-}
-
-model users {
-  id         String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name       String    @db.VarChar(255)
-  email      String    @unique
-  password   String
-  created_at DateTime? @default(now()) @db.Timestamptz(6)
-  members    Member[]
-}
+//--- Enums
 
 enum membership_type {
-  member
-  reunion
-  trainer
-  guest
+  Member
+  Reunion
+  Trainer
+  Guest
 }
 
 enum status {
@@ -52,3 +22,226 @@ enum status {
   inactive
   archived
 }
+
+enum PaymentStatus {
+  pending
+  paid
+  refunded
+}
+
+//--- Models
+
+model User {
+  id         String    @id@default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String    @db.VarChar(255)
+  email      String    @unique
+  password   String
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  members    Member[]
+
+  photo           Photo?                @relation("ProfilePhotos")
+
+
+  @@map("users")
+}
+
+
+model Member {
+  id                String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId            String?              @map("user_id") @db.Uuid
+  firstName         String               @map("first_name")
+  lastName          String               @map("last_name")
+  email             String               @unique
+  phone             String?
+  address           String?
+  emergencyName     String?              @map("emergency_name")
+  emergencyPhone    String?              @map("emergency_phone")
+  birthDate         DateTime?            @map("birth_date") @db.Date
+  study             String?
+  fieldPosition     String?              @map("field_position")
+  shirtNumber       String?              @map("shirt_number")
+  memberSince       DateTime             @default(dbgenerated("CURRENT_DATE")) @map("member_since") @db.Date
+  memberType        membership_type      @default(Member) @map("member_type")
+  createdAt         DateTime             @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime             @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  // relations
+  user              User?                 @relation(fields: [userId], references: [id], onUpdate: NoAction)
+  teamSeasons       TeamSeasonMember[]    // historical memberships
+  activitySignups   ActivitySignup[]      @relation("MemberToSignup")
+  createdActivities Activity[]            @relation("CreatedActivities")
+  committeeSeasons  CommitteeSeasonMember[]
+
+  @@map("members")
+}
+
+model Team {
+  id                String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String                @unique
+  createdAt         DateTime              @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  // relation to per-season data
+  seasons           TeamSeason[]
+
+  @@map("teams")
+}
+
+model Season {
+  id                String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String                // e.g. "2024-2025"
+  startsAt          DateTime
+  endsAt            DateTime
+  active            Boolean               @default(false)
+
+  // relation to per-team data
+  teamSeasons       TeamSeason[]
+  committeeSeasons  CommitteeSeason[]
+
+  @@map("seasons") 
+}
+
+model TeamSeason {
+  id                String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  teamId            String                @db.Uuid
+  seasonId          String                @db.Uuid
+
+  theme             String?               // that season's team theme
+  poule             String?
+
+  // relations
+  team              Team                  @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  season            Season                @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  members           TeamSeasonMember[]
+
+  @@unique([teamId, seasonId])            // one row per TeamxSeason
+  @@map("team_seasons")
+}
+
+model TeamSeasonMember {
+  id                String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  teamSeasonId      String                @db.Uuid
+  memberId          String                @db.Uuid
+  
+  isCaptain         Boolean               @default(false)
+  joinedAt          DateTime?             @map("joined_at")   // if they joined mid-season
+  leftAt            DateTime?             @map("left_at")  // if they left before season end
+
+  // relations
+  teamSeason        TeamSeason            @relation(fields: [teamSeasonId], references: [id], onDelete: Cascade)
+  member            Member                @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@unique([teamSeasonId, memberId])      // prevent duplicate membership rows
+  @@map("team_season_members")
+}
+
+model Committee {
+  id                String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String                // e.g. "ArdennenCie"
+  description       String                
+  isActive          Boolean               @default(true) @map("is_active")
+
+  // relations
+  seasons           CommitteeSeason[]
+}
+
+model CommitteeSeason {
+  id                String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  committeeId       String                @db.Uuid
+  seasonId          String                @db.Uuid
+
+  // relations
+  committee         Committee             @relation(fields: [committeeId], references: [id], onDelete: Cascade)
+  season            Season                @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  activities        Activity[]            // activities organized by this committee in this season
+  members           CommitteeSeasonMember[] // members of this committee in this season
+
+  @@unique([committeeId, seasonId])
+  @@map("committee_seasons")
+}
+
+model CommitteeSeasonMember {
+  id                String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  committeeSeasonId String                @db.Uuid
+  memberId          String                @db.Uuid
+  
+  isChairman        Boolean               @default(false) @map("is_chairman")
+  isTreasurer       Boolean               @default(false) @map("is_treasurer")
+  
+  // relations
+  committeeSeason   CommitteeSeason       @relation(fields: [committeeSeasonId], references: [id], onDelete: Cascade)
+  member            Member                @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@unique([committeeSeasonId, memberId])      // prevent duplicate membership rows
+  @@map("committee_season_members")
+}
+
+model Activity {
+  id                String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  committeeSeasonId String                @db.Uuid
+
+  name              String
+  description       String?
+  date              DateTime
+  deadlineSignup    DateTime              @map("deadline_signup")
+  price             Decimal               @db.Decimal(10,2)
+  location          String?
+
+  createdById       String?               @db.Uuid
+  createdBy         Member?               @relation("CreatedActivities", fields: [createdById], references: [id], onDelete: Cascade)
+
+  // relations
+  committeeSeason   CommitteeSeason       @relation(fields: [committeeSeasonId], references: [id], onDelete: Cascade)
+  signups           ActivitySignup[]      @relation("SignupForActivity")
+  // messages          ActivityMessage[]     @relation("MessagesForActivity")
+  photos            Photo[]               @relation("ActivityPhotos")
+
+  @@map("activities")
+}
+
+model ActivitySignup {
+  id                String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  activityId        String                @db.Uuid
+  memberId          String                @db.Uuid
+  signupAt          DateTime              @default(now()) @map("signup_at") @db.Timestamptz(6)
+  canceledAt        DateTime?             @map("canceled_at") @db.Timestamptz(6)
+  paymentStatus     PaymentStatus         @default(pending) @map("payment_status")
+  payment_at        DateTime              @map("payment_at") @db.Timestamptz(6)
+
+  // relations
+  activity          Activity              @relation("SignupForActivity", fields: [activityId], references: [id], onDelete: Cascade)
+  member            Member                @relation("MemberToSignup", fields: [memberId], references: [id], onDelete: Cascade)
+  
+  @@unique([activityId, memberId])
+  @@map("activity_signup")
+}
+
+model Photo {
+  id                String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  url               String
+  caption           String?
+  uploadedAt        DateTime              @default(now()) @map("uploaded_at") @db.Timestamptz(6)
+
+  // relations: user can have one photo (profile photo)
+  userId            String?               @unique @db.Uuid
+  user              User?                 @relation("ProfilePhotos", fields: [userId], references: [id], onDelete: Cascade)
+
+  // relations: activity can have many photos
+  activityId        String?               @db.Uuid
+  activity          Activity?             @relation("ActivityPhotos", fields: [activityId], references: [id], onDelete: Cascade)
+
+  @@map("photos")
+}
+
+// model ActivityMessage {
+//  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+//  activityId    String    @db.Uuid
+//  memberId      String?   @db.Uuid
+//  content       String
+//  sentAt        DateTime  @default(now()) @map("sent_at") @db.Timestamptz(6)
+
+  // relations
+//  activity      Activity  @relation("MessagesForActivity", fields: [activityId], references: [id], onDelete: Cascade)
+//  member        Member?   @relation(fields: [memberId], references: [id], onDelete: SetNull)
+
+//  @@map("activity_messages")
+// }

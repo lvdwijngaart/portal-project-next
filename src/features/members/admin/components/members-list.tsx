@@ -63,12 +63,25 @@ export default function MembersList({ members, isLoading, onMemberClick, onEdit,
                 <td>{member.email}</td>
                 <td>{member.phone}</td>
                 <td className="actions">
-                  <button className="edit" onClick={() => {onEdit(member)}}>Edit</button>
-                  <button className="delete" onClick={() => {onDelete(member)}}>Delete</button>
+                  <button className="edit" 
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent row click
+                      onEdit(member)
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button className="delete" 
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent row click
+                      onDelete(member)}
+                    }
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
-            {/* Map through members data here */}
           </tbody>
         </table>
       </div>

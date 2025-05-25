@@ -29,14 +29,25 @@ export interface Member {
   emergencyName?: string
   emergencyPhone?: string
 
+  // iban?: string
+  // bic?: string
   birthDate?: Date
 
   study?: string
 
+  team?: {
+    id: string
+    name: string
+  }
+  committees?: {
+    id: string
+    name: string
+  }[]
+
   fieldPosition?: string
   shirtNumber?: string
   memberSince?: string | Date
-  memberType?: "member" | "reunion" | "trainer" | "guest"
+  memberType?: "Member" | "Reunion" | "Trainer" | "Guest"
 
   createdAt?: string
   updatedAt?: string
