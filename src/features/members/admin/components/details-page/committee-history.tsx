@@ -2,10 +2,15 @@
 
 interface CommitteeHistoryPanelProps {
   committeeHistory: {
-    id: string;
-    name: string;
-    startDate: string;
-    endDate: string | null;
+    committee: {
+      id: string;
+      name: string;
+    };
+    season: {
+      id: string;
+      name: string;
+      active: boolean;
+    };
   }[];
   isLoading: boolean;
 }
@@ -21,11 +26,11 @@ export default function CommitteeHistoryPanel({ committeeHistory, isLoading }: C
       ) : (
         <ul>
           {committeeHistory.map((history) => (
-            <li key={history.id} className="mb-2">
+            <li key={history.committee.id} className="mb-2">
               <div className="text-gray-500">
-                {history.name}
+                {history.committee.name} - {history.season.name}
               </div>
-              <span className="font-semibold">{history.name}</span> 
+              <span className="font-semibold">{history.committee.name}</span> 
             </li>
           ))}
         </ul>

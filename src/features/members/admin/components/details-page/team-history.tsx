@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 
 interface TeamHistoryProps {
@@ -15,7 +16,12 @@ export default function TeamHistoryPanel({
 
   return (
     <div className="team-history">
-      <h1 className="text-lg font-bold mb-4">Team History</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-lg font-bold mb-4">Team History</h1>
+        <Link href="/admin/teams">
+          <span className="text-blue-500 hover:underline cursor-pointer">Go to Teams list</span>
+        </Link>
+      </div>
       {isLoading ? (
         <p>Loading...</p>
       ) : teamHistory.length === 0 ? (
