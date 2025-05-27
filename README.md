@@ -5,7 +5,34 @@ Hey! My name is Luca van der Wijngaart and this application is being developed c
 - System design: Devising system requirements, designing software and general documentation. 
 - Other useful skills like: Best practices, <span style="color:#FFBF00">__Git Management__</span> and deployment. 
 
-All while hopefully building something my volleyball association could really use. Please read on to see the progress and current status of this project. If you have any questions or inquiries, please reach out to me via mail [l.vd.wijngaart@outlook.com](mailto:l.vd.wijngaart@outlook.com), or by messaging me on [LinkedIn](https://www.linkedin.com/in/luca-van-der-wijngaart-51046133a/?originalSubdomain=nl). 
+All while hopefully building something my volleyball association could really use. Please read on to see the progress, features and current status of this project. If you have any questions or inquiries, please reach out to me via mail [l.vd.wijngaart@outlook.com](mailto:l.vd.wijngaart@outlook.com), or by messaging me on [LinkedIn](https://www.linkedin.com/in/luca-van-der-wijngaart-51046133a/?originalSubdomain=nl). 
+
+<br><br>
+
+# Progress: 
+This project was started on May 21st, 2025. 
+
+## 28th of May - 1 week post *init*
+
+This first week was filled with enthousiasm and confidence, and looking back I think I achieved a lot. From setting up the git  to learning about deployments, building my first app using Next.js and learning about its routing. Here is a quick overview: 
+
+- Maintained a neat and descriptive [git log](#Images). 
+- Set up a postgres database, worked with Prisma and created datamodels for Members, Teams, Committees and Activities (and their relations). 
+- Created the login (using NextAuth) and NavBar with temporary pages. 
+- Lots of progress on the first page/feature: Member management
+    - Member list
+    - Add/Edit/Delete functionalities
+    - Member details page including personal information, team/committee/activity-signup information
+    - [Watch it in this demo!](./public/Demo%20Portal%20Project%20-%206%20day%20progress.mp4)
+
+
+### Images
+<img src="./public/git-log.png" alt="Git log screenshot" width="500"/>
+
+[Visit image](./public/git-log.png)
+
+
+
 
 <br><br>
 
@@ -23,46 +50,3 @@ Fast-forward only one month, May 2025, and I got stuck a little bit in my ReactJ
 
 <br><br>
 
-
-
-
-
-
-# Project resources
-
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
