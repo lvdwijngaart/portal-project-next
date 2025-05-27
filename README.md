@@ -23,7 +23,7 @@ This first week was filled with enthousiasm and confidence, and looking back I t
     - Member list
     - Add/Edit/Delete functionalities
     - Member details page including personal information, team/committee/activity-signup information
-    - [Watch it in this demo!](./public/Demo%20Portal%20Project%20-%206%20day%20progress.mp4)
+    - [Watch it in this demo!](https://youtu.be/BULsBobMsow)
 
 
 ### Images
