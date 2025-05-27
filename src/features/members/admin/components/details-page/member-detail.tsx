@@ -10,6 +10,7 @@ import TeamHistoryPanel from "./team-history";
 import CommitteeHistoryPanel from "./committee-history";
 
 import "../../styles/member-detail.css"; 
+import ActivityPanel from "./activity-panel";
 
 interface MemberDetailProps {
   onClose: () => void;
@@ -100,7 +101,6 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
       })
     ])
     .then(([currentTeam, currentCommittees, teamHistory, committeeHistory]) => {
-      console.log("committeeData:", currentCommittees);
       setCurrentTeam(currentTeam || null); // Set current team, or null if not found
       setCurrentCommittees(currentCommittees || []);
       setTeamHistory(teamHistory || []);
@@ -127,7 +127,7 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
       />
       
       {/* Slide-in Panel */}
-      <div className="slide-panel">
+      <div className="slide-panel"  style={{ backgroundColor: "#f4f4f4" }}>
 
         {/* Header */}
         <MemberDetailsPageHeader onClose={onClose} member={member} />
@@ -139,11 +139,12 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
         {/* Content */}
         <div className={`scrollable-content`}>
           <div className="fade-top" />
-          <div className="p-6 m-6 border border-gray-200 rounded-lg bg-white shadow-md">
+          <div className="p-6 m-6 border border-gray-200 rounded-lg shadow-md">
             
-            {active == tabs[0] && <InformationPanel member={member} teamData={currentTeam} committeeData={currentCommittees} isLoading={loading}/>}
+            {active == tabs[0] && <InformationPanel member={member} teamData={currentTeam} committeeData={currentCommittees} isLoading={loading} />}
             {active == tabs[1] && <TeamHistoryPanel teamHistory={teamHistory} isLoading={loading} />}
-            {active == tabs[2] && <CommitteeHistoryPanel committeeHistory={committeeHistory} isLoading={loading}/>}
+            {active == tabs[2] && <CommitteeHistoryPanel committeeHistory={committeeHistory} isLoading={loading} />}
+            {active == tabs[3] && <ActivityPanel member={member} />}
             
           </div>
           <div className="fade-bottom" />

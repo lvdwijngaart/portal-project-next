@@ -1,4 +1,4 @@
-// app/api/members/[id]/current-team/route.ts
+// app/api/members/[id]/committee-history/route.ts
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
@@ -9,8 +9,8 @@ import prisma from "@/lib/prisma";
  * The data includes: committee id, committee name, season id, season name and if the season is active. 
  * 
  * @param _req - The incoming request object (not used in this function).
- * @param params.id - The id of the member whose team history is requested.
- * @returns NextResponse - A JSON response containing the team information or null if no team is found.
+ * @param params.id - The id of the member whose committee history is requested.
+ * @returns NextResponse - A JSON response containing the committee information or null if no committee is found.
  */
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const id = (await params).id; // Await the promise to get the actual ID
@@ -40,7 +40,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
       },
     });
     
-    // Only if there are such records, return the team history. Otherwise return null. 
+    // Only if there are such records, return the committee history. Otherwise return null. 
     if (rec && rec.length > 0) {
       const committeeHistory = rec.map(committee => ({
         committee: committee.committeeSeason.committee,

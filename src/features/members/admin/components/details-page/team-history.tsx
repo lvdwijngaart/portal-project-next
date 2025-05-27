@@ -29,11 +29,9 @@ export default function TeamHistoryPanel({
       ) : (
         <ul>
           {teamHistory.map((history) => (
-            <li key={history.team.id} className="mb-2">
-              <div className="text-gray-500">
-                {history.season.name}
-              </div>
+            <li key={history.team.id} className="record-item mb-5 flex-col gap-1 justify-start align-start">
               <span className="font-semibold">{history.team.name}</span> 
+              <span className="text-gray-500">{history.season.name}</span>
             </li>
           ))}
         </ul>

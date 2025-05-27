@@ -151,13 +151,13 @@
 
 .fade-top {
   top: 0;
-  background: linear-gradient(to bottom, white, transparent);
+  background: linear-gradient(to bottom, #f4f4f4, transparent);
   margin-bottom: -40px;;
 }
 
 .fade-bottom {
   bottom: 0;
-  background: linear-gradient(to top, white, transparent);
+  background: linear-gradient(to top, #f4f4f4, transparent);
   margin-top: -50px;
 }
 
@@ -178,4 +178,93 @@
 
 .scrollable-content::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
+}
+
+/* Container holds all records */
+.record-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f9f9f9;
+}
+
+/* Each card-like row */
+.record-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 2px 4px 12px rgba(0,0,0,0.15);
+}
+
+.btn-pdf {
+  border: none;
+  background: #eef0f5;
+  color: #333;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.record-info {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.record-date {
+  font-weight: bold;
+  color: #333;
+}
+
+.record-id {
+  margin-top: 2px;
+}
+
+/* Middle section: client/company name */
+.record-mid {
+  padding: 0 1rem;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.record-values {
+  text-align: right;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.value {
+  display: block;
+  font-weight: bold;
+  color: #333;
+}
+
+.value-after {
+  display: block;
+  margin-top: 2px;
+}
+
+.btn-action {
+  background: #6c5ce7;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+/* Hover states */
+.record-item:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+
+.btn-action:hover {
+  background: #5941c3;
 }

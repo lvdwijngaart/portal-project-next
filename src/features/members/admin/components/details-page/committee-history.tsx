@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 
 interface CommitteeHistoryPanelProps {
@@ -18,7 +19,12 @@ interface CommitteeHistoryPanelProps {
 export default function CommitteeHistoryPanel({ committeeHistory, isLoading }: CommitteeHistoryPanelProps) {
   return (
     <div className="committee-history">
-      <h1 className="text-lg font-bold mb-4">Committee History</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-lg font-bold mb-4">Committee History</h1>
+        <Link href="/admin/committees">
+          <span className="text-blue-500 hover:underline cursor-pointer">Go to Committees list</span>
+        </Link>
+      </div>
       {isLoading ? (
         <p>Loading...</p>
       ) : committeeHistory.length === 0 ? (
