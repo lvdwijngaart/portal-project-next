@@ -1,11 +1,17 @@
+import Link from "next/link";
 
 
 interface CommitteeHistoryPanelProps {
   committeeHistory: {
-    id: string;
-    name: string;
-    startDate: string;
-    endDate: string | null;
+    committee: {
+      id: string;
+      name: string;
+    };
+    season: {
+      id: string;
+      name: string;
+      active: boolean;
+    };
   }[];
   isLoading: boolean;
 }
@@ -13,7 +19,12 @@ interface CommitteeHistoryPanelProps {
 export default function CommitteeHistoryPanel({ committeeHistory, isLoading }: CommitteeHistoryPanelProps) {
   return (
     <div className="committee-history">
-      <h1 className="text-lg font-bold mb-4">Committee History</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-lg font-bold mb-4">Committee History</h1>
+        <Link href="/admin/committees">
+          <span className="text-blue-500 hover:underline cursor-pointer">Go to Committees list</span>
+        </Link>
+      </div>
       {isLoading ? (
         <p>Loading...</p>
       ) : committeeHistory.length === 0 ? (
@@ -21,11 +32,11 @@ export default function CommitteeHistoryPanel({ committeeHistory, isLoading }: C
       ) : (
         <ul>
           {committeeHistory.map((history) => (
-            <li key={history.id} className="mb-2">
+            <li key={history.committee.id} className="mb-2">
               <div className="text-gray-500">
-                {history.name}
+                {history.committee.name} - {history.season.name}
               </div>
-              <span className="font-semibold">{history.name}</span> 
+              <span className="font-semibold">{history.committee.name}</span> 
             </li>
           ))}
         </ul>

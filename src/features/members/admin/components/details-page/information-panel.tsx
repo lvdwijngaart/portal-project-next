@@ -9,8 +9,15 @@ interface InformationPanelProps {
     name: string 
   } | null, 
   committeeData?: { 
-    id: string; 
-    name: string 
+    committee: {
+      id: string;
+      name: string;
+    }, 
+    season: {
+      id: string;
+      name: string;
+      active: boolean;
+    }
   }[] | null,
   isLoading?: boolean;
 }
@@ -96,8 +103,8 @@ export default function InformationPanel({ member, teamData, committeeData, isLo
           ? (<span>Loading committee information...</span>)
           : committeeData && committeeData.length > 0           // If there are committees, map through them
             ? committeeData.map((committee) => (
-              <span key={committee.id} className="text-black-600 rounded-full py-2 px-5 bg-gray-200 inline-block mr-2 mb-2">
-              {committee.name}
+              <span key={committee.committee.id} className="text-black-600 rounded-full py-2 px-5 bg-gray-200 inline-block mr-2 mb-2">
+              {committee.committee.name}
                 </span>
             )): (                                               // If no committees, show a message
               <span className="text-gray-500">No committees assigned</span>

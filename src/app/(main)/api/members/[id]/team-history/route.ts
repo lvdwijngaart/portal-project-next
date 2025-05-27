@@ -48,7 +48,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
       }));
       return NextResponse.json(teamHistory);
     }
-    return NextResponse.json(null);
+    return NextResponse.json([]);
   } catch (error) {
     console.error(`Failed to fetch team for member ${id}:`, error);
     throw error;

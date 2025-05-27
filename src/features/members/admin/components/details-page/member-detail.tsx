@@ -10,6 +10,7 @@ import TeamHistoryPanel from "./team-history";
 import CommitteeHistoryPanel from "./committee-history";
 
 import "../../styles/member-detail.css"; 
+import ActivityPanel from "./activity-panel";
 
 interface MemberDetailProps {
   onClose: () => void;
@@ -47,6 +48,8 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
   // const committeeHistory = await getMemberCommitteeHistory(member.id);
   const [currentTeam, setCurrentTeam] = useState<{id: string, name: string} | null>(null);
   const [teamHistory, setTeamHistory] = useState<{ team: {id: string, name: string}, season: {id: string, name: string}}[]>([]);
+  const [currentCommittees, setCurrentCommittees] = useState<{committee: {id: string, name: string}, season: {id: string, name: string, active: boolean}}[]>([]);
+  const [committeeHistory, setCommitteeHistory] = useState<{committee: {id: string, name: string}, season: {id: string, name: string, active: boolean}}[]>([]);
   const [loading, setLoading] = useState(true);
 
   const onTabChange = (tab: string) => {
@@ -61,6 +64,7 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
     if (!member) return;
     setLoading(true);
     Promise.all([         // Fetch data through API
+      // Fetch current team
       fetch(`/api/members/${member.id}/current-team`)
       .then((res) => {
         if (!res.ok) {
@@ -68,6 +72,17 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
         }
         return res.json();
       }),
+
+      // Fetch current committees
+      fetch(`/api/members/${member.id}/current-committees`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch current committees");
+        }
+        return res.json();
+      }),
+
+      // Fetch team history
       fetch(`/api/members/${member.id}/team-history`)
       .then((res) => {
         if (!res.ok) {
@@ -75,11 +90,21 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
         }
         return res.json();
       }),
+
+      // Fetch committee history
+      fetch(`/api/members/${member.id}/committee-history`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch committee history");
+        }
+        return res.json();
+      })
     ])
-    .then(([team, teamHistory]) => {
-      console.log("teamHistory:", teamHistory);
-      setCurrentTeam(team);
+    .then(([currentTeam, currentCommittees, teamHistory, committeeHistory]) => {
+      setCurrentTeam(currentTeam || null); // Set current team, or null if not found
+      setCurrentCommittees(currentCommittees || []);
       setTeamHistory(teamHistory || []);
+      setCommitteeHistory(committeeHistory || []);
     })
     .catch((error) => {
       console.error("Error fetching member data:", error);
@@ -102,7 +127,7 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
       />
       
       {/* Slide-in Panel */}
-      <div className="slide-panel">
+      <div className="slide-panel"  style={{ backgroundColor: "#f4f4f4" }}>
 
         {/* Header */}
         <MemberDetailsPageHeader onClose={onClose} member={member} />
@@ -114,11 +139,12 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
         {/* Content */}
         <div className={`scrollable-content`}>
           <div className="fade-top" />
-          <div className="p-6 m-6 border border-gray-200 rounded-lg bg-white shadow-md">
+          <div className="p-6 m-6 border border-gray-200 rounded-lg shadow-md">
             
-            {active == tabs[0] && <InformationPanel member={member} teamData={currentTeam} isLoading={loading}/>}
+            {active == tabs[0] && <InformationPanel member={member} teamData={currentTeam} committeeData={currentCommittees} isLoading={loading} />}
             {active == tabs[1] && <TeamHistoryPanel teamHistory={teamHistory} isLoading={loading} />}
-            {active == tabs[2] && <CommitteeHistoryPanel committeeHistory={[]} isLoading={loading}/>}
+            {active == tabs[2] && <CommitteeHistoryPanel committeeHistory={committeeHistory} isLoading={loading} />}
+            {active == tabs[3] && <ActivityPanel member={member} />}
             
           </div>
           <div className="fade-bottom" />
