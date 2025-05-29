@@ -23,13 +23,25 @@ This first week was filled with enthousiasm and confidence, and looking back I t
     - Member list
     - Add/Edit/Delete functionalities
     - Member details page including personal information, team/committee/activity-signup information
-    - [Watch it in this demo!](https://youtu.be/BULsBobMsow)
+    - [Watch it in this demo!](https://youtu.be/hw4lwk9f5H8)
 
 
 ### Images
 <img src="./public/git-log.png" alt="Git log screenshot" width="500"/>
 
 [Visit image](./public/git-log.png)
+
+
+<img src="./public/member-page-list.png" alt="Member Page showing a list of members" width="500"/>
+
+[Visit image](./public/member-page-list.png)
+
+
+<img src="./public/member-page-detail.png" alt="Member Page showing the details of a member" width="500"/>
+
+[Visit image](./public/member-page-detail.png)
+
+
 
 
 
