@@ -123,7 +123,7 @@ const ActivityItem = ({
 }: {
   signup: ActivitySignup;
 }) => (
-  <li className="record-item">
+  <li className="record-item-activity">
     <h2 className="font-weight-700">{signup.activity.name}</h2>
     <div className="record-info">
       <div className="signup-date">Signed up: {new Date(signup.signupDetails.signupAt).toLocaleDateString()}</div>

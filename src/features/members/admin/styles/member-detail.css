@@ -192,6 +192,16 @@
 /* Each card-like row */
 .record-item {
   display: flex;
+  align-items: start;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 2px 4px 12px rgba(0,0,0,0.15);
+}
+
+.record-item-activity {
+  display: flex;
   align-items: center;
   justify-content: space-between;
   background: #fff;
