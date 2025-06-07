@@ -26,7 +26,7 @@ type MembersListProps = {
  * @example
  * <MembersList members={[{ id: 1, firstName: 'John', lastName: 'Doe', email: 'john@example.com', phone: '1234567890' }]} />
  */
-export default function MembersList({ members, isLoading, onMemberClick, onEdit, onDelete }: MembersListProps) {
+export default function AdminMembersList({ members, isLoading, onMemberClick, onEdit, onDelete }: MembersListProps) {
 
   return (
     <div className="container">

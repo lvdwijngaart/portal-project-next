@@ -1,5 +1,6 @@
 .admin-page{ 
-  padding: 20px;
+  padding: 30px;
+  height: 100%;
 }
 
 .admin-header{
@@ -9,4 +10,10 @@
 .admin-header h1{
   font-size: 24px;
   font-weight: bold;
+}
+
+.teams-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }

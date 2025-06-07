@@ -3,7 +3,7 @@
 import { Member } from "@prisma/client";
 import { useEffect, useState } from "react";
 
-import MembersList from "@/features/members/admin/components/members-list";
+import AdminMemberList from "@/features/members/admin/components/members-list";
 import MembersToolbar from "@/features/members/admin/components/members-toolbar";
 import AddMemberModal from "@/features/members/admin/components/add-modal";
 import ImportMemberModal from "@/features/members/admin/components/import-modal";
@@ -114,7 +114,7 @@ export default function AdminMembersPage() {
         />
       </div>
 
-      <MembersList 
+      <AdminMemberList 
         members={members} 
         isLoading={isLoading} 
         onMemberClick={(member) => {

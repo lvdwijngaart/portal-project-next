@@ -3,6 +3,7 @@ import Link from "next/link";
 
 interface TeamHistoryProps {
   teamHistory: {
+    id: string;
     team: { id: string; name: string };
     season: { id: string; name: string };
   }[], 
@@ -29,7 +30,7 @@ export default function TeamHistoryPanel({
       ) : (
         <ul>
           {teamHistory.map((history) => (
-            <li key={history.team.id} className="record-item mb-5 flex-col gap-1 justify-start align-start">
+            <li key={history.id} className="record-item mb-5 flex-col gap-1 justify-start align-start">
               <span className="font-semibold">{history.team.name}</span> 
               <span className="text-gray-500">{history.season.name}</span>
             </li>
