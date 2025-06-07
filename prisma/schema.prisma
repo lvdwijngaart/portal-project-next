@@ -29,6 +29,12 @@ enum PaymentStatus {
   refunded
 }
 
+enum TeamCategory {
+  Gents
+  Ladies
+  TrainingTeam @map("Training Team")
+}
+
 //--- Models
 
 model User {
@@ -78,6 +84,7 @@ model Member {
 model Team {
   id                String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name              String                @unique
+  teamCategory      TeamCategory          @map("team_category") @default(Gents)
   createdAt         DateTime              @default(now()) @map("created_at") @db.Timestamptz(6)
 
   // relation to per-season data
