@@ -22,6 +22,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
       select: {
         teamSeason: {
           select: {
+            id: true, 
             team: {
               select: { id: true, name: true },     // For now only need id and name, can be extended
             },
@@ -43,8 +44,9 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     // Only if there are such records, return the team history. Otherwise return null. 
     if (rec && rec.length > 0) {
       const teamHistory = rec.map(item => ({
-      team: item.teamSeason.team,
-      season: item.teamSeason.season,
+        id: item.teamSeason.id,
+        team: item.teamSeason.team,
+        season: item.teamSeason.season,
       }));
       return NextResponse.json(teamHistory);
     }
