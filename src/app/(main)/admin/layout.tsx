@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 
-import "./styles.css";
+import styles from "./admin-styles.module.css";
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -13,7 +13,7 @@ interface AdminLayoutProps {
  */
 export default function AdminLayout({ children }: AdminLayoutProps) {
   return (
-    <div className="admin-page">
+    <div className={styles.adminPage}>
       {children}
     </div>
   );

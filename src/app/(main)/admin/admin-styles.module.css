@@ -1,0 +1,13 @@
+.adminPage{ 
+  padding: 0 50px;
+  height: 100%;
+}
+
+.adminHeader{
+  padding: 20px;
+}
+
+.adminHeader h1{
+  font-size: 24px;
+  font-weight: bold;
+}

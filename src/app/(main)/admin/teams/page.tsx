@@ -9,6 +9,9 @@ import { Team } from "@prisma/client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import adminStyles from "../admin-styles.module.css"; 
+import styles from './teams.module.css';
+
 
 /**
  * AdminTeamsPage component
@@ -72,27 +75,30 @@ export default function AdminTeamsPage() {
 
   function handleTabChange(tab: "mens" | "womens") {
     setActiveTab(tab);
+    setSelectedTeamId(null); // Reset selected team when tab changes
   }
 
 
   return (
-    <div className="teams-page">
-      <div className="admin-header flex justify-between items-center">
-        {/* Tab component */}
+    <div className={`${styles.teamsPage}`}>
+      {/* Header */}
+      <div className={`${adminStyles.adminHeader} flex justify-between items-center`}>
         <h1>Admin Teams Page</h1> 
         <Link
           href='/admin/teams/config'
-          className="button secondary px-4 py-2 rounded-md border bg-white border-gray-300 hover:bg-gray-100"
+          className={`${styles.manageButton}`}
         >
-          Manage Teams & Seasons <span className="icon font-bold">&gt;</span> 
+          Manage Teams & Seasons <span className="font-bold ml-2">&gt;</span> 
         </Link>
       </div>
+
+      {/* TeamCategory Tab Bar */}
       <TeamsTabBar tabs={tabs} activeTab={activeTab} setActiveTab={handleTabChange} />
       
       {/* Season selector */}
       <SeasonSelector seasons={[{id: "0", name: "2024-2025", active: true}, {id: "1", name: "2023-2024", active: false} ]} onSeasonSelect={() => {}} />
 
-        <div className="flex justify-start flex-1 gap-[30px] my-6">
+        <div className={`${styles.contentContainer}`}>
 
           {loading ? (
             <div className="flex items-center justify-center w-full h-full">
@@ -101,16 +107,19 @@ export default function AdminTeamsPage() {
           ) : (
             <>
               {currentTeams.length === 0 ? (
-                <div className="flex items-center justify-center w-full h-full">
+                <div className={`${styles.teamListContainer} items-center mt-30`}>
                   <p className="text-gray-500">No teams found for the selected category and season.</p>
                 </div>
               ) : (
-                // List component
-                <AdminTeamsList teams={currentTeams} selectedTeamId={selectedTeamId} onTeamSelect={setSelectedTeamId}/>
+                <div className={`${styles.teamListContainer}`}>
+                  {/* List component */}
+                  <AdminTeamsList teams={currentTeams} selectedTeamId={selectedTeamId} onTeamSelect={setSelectedTeamId}/>
+                </div>
               )}
-            
-              {/* Team-Detail page that is only displayed when teamToView is set */}
-              <TeamDetailsPage teamId={selectedTeamId} onClose={() => {setSelectedTeamId(null)}}/>
+              <div className={`${styles.teamDetailsContainer}`}>
+                {/* Team-Detail page that is only displayed when teamToView is set */}
+                <TeamDetailsPage teamId={selectedTeamId} onClose={() => {setSelectedTeamId(null)}}/>
+              </div>
             </>
           )}
 

@@ -3,18 +3,17 @@
   border: 1px solid #846099;
   overflow: hidden;
   margin: 10px;
-  min-width: 25%;
+  width: 100%;
   align-self: flex-start;
 }
 
 
 .teamItem {
-  background-color: #f8f9fa; 
+  background-color: white; 
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 2.5rem;
-  transition: background-color 0.2s ease;
   cursor: pointer;
 }
 

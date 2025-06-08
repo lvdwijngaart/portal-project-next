@@ -54,7 +54,7 @@ export default function TeamDetailsPage({ teamId, onClose }: TeamDetailsPageProp
   }, [onClose]);
   
   return (
-    <div className={`${styles.detailsContainer}  mx-10 `}>
+    <div className={`${styles.detailsContainer}`}>
 
       {/* If teamId is not set, show a placeholder div */}
       {teamId === null ? (

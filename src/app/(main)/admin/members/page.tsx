@@ -8,9 +8,9 @@ import MembersToolbar from "@/features/members/admin/components/members-toolbar"
 import AddMemberModal from "@/features/members/admin/components/add-modal";
 import ImportMemberModal from "@/features/members/admin/components/import-modal";
 import DeleteMemberModal from "@/features/members/admin/components/delete-modal";
+import MemberDetail from "@/features/members/admin/components/details-page/member-detail";
 
 import { deleteMember, getMembers } from "@/features/members/services/membersService";
-import MemberDetail from "@/features/members/admin/components/details-page/member-detail";
 
 /**
  * AdminMembersPage component
