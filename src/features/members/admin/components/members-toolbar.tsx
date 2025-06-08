@@ -38,7 +38,7 @@ export default function MembersToolbar({
   return (
     <div className="toolbar">
       <div className="left">
-        <h2 className="heading">Members List</h2>
+        <h1>Members List</h1>
         <button className="addMember" onClick={() => onAdd()}>Add Member</button>
         <button className="importMembers" onClick={() => onImport()}>Import Members</button>
         <button className="exportMembers" onClick={() => onExport()}>Export Members (Excel)</button>

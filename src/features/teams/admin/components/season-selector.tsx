@@ -1,13 +1,16 @@
 import { SeasonDropdownOption } from "@/types/season";
+import { on } from "events";
 
 
 interface SeasonSelectorProps {
   seasons: Array<SeasonDropdownOption>;
-  onSeasonSelect: (seasonId: string) => void;
+  selectedSeason: SeasonDropdownOption | null;
+  onSeasonSelect: (season: SeasonDropdownOption) => void;
 }
 
-export default function SeasonSelector({ seasons, onSeasonSelect }: SeasonSelectorProps) {
+export default function SeasonSelector({ seasons, selectedSeason, onSeasonSelect }: SeasonSelectorProps) {
 
+  // If no seasons are provided, show a message indicating no seasons are available
   if (!seasons || seasons.length === 0) {
     return (
       <div className="flex items-center gap-4 my-6">
@@ -19,6 +22,15 @@ export default function SeasonSelector({ seasons, onSeasonSelect }: SeasonSelect
     );
   }
 
+  // Handle change in season dropdown
+  const handleSeasonChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedId = event.target.value;
+    const selected = seasons.find(season => season.id === selectedId);
+    if (selected) {
+      onSeasonSelect(selected);
+    }
+  };
+
   return (
     <div className="flex items-center gap-4 my-6 ">
       <label htmlFor="season-select" className="font-medium text-gray-700 whitespace-nowrap">
@@ -28,10 +40,23 @@ export default function SeasonSelector({ seasons, onSeasonSelect }: SeasonSelect
         <select 
           id="season-select" 
           className="w-full px-4 py-3 pr-10 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm appearance-none hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+          defaultValue={selectedSeason ? selectedSeason.id : ""}
+          onChange={handleSeasonChange}
         >
+          {/* A placeholder for if no Season is set */}
+          {!selectedSeason && (
+            <option value="" disabled>
+              Select a season
+            </option>
+          )}
+
+          {/*  */}
           {seasons.map((season) => (
-            <option key={season.id} value={season.id}>
-              {season.name}
+            <option 
+              key={season.id} 
+              value={season.id} 
+            >
+              {season.name} {season.active ? "(Active)" : ""}
             </option>
           ))}
         </select>

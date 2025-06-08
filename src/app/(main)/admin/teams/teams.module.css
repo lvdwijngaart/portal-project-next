@@ -20,7 +20,18 @@
   flex: 1;
   justify-content: start;
   gap: 5rem;
-  margin: 1.5rem 0;
+  margin: 1.5rem 0 5rem 0;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  height: auto;
+  padding-top: 3rem;
+  color: var(--color-gray-500);
+  font-size: 1.5rem;
 }
 
 .teamListContainer {

@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 
 import adminStyles from "../admin-styles.module.css"; 
 import styles from './teams.module.css';
+import { SeasonDropdownOption } from "@/types/season";
 
 
 /**
@@ -34,14 +35,51 @@ import styles from './teams.module.css';
 export default function AdminTeamsPage() {
   const tabs: ('mens' | 'womens')[] = ['mens', 'womens'];
   const [activeTab, setActiveTab] = useState<"mens" | "womens">("mens");
-  const [allTeams, setAllTeams] = useState<TeamListItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+
+  const [allSeasons, setAllSeasons] = useState<SeasonDropdownOption[]>([]);
+  const [selectedSeason, setSelectedSeason] = useState<SeasonDropdownOption | null>(null);
+  
+  const [allTeams, setAllTeams] = useState<TeamListItem[]>([]);
+  const [selectedTeamId, setSelectedTeamId] = useState<string | null>(null);
 
   // Fetch teams data from the server when the component mounts
   useEffect(() => {
-    async function fetchTeams() {
+    async function fetchSeasons() {
       try {
-        const response = await fetch('/api/teams');
+        const response = await fetch('/api/seasons');
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setAllSeasons(data || []);
+
+        const activeSeason = data.find((season: SeasonDropdownOption) => season.active);
+        if (activeSeason) {
+          setSelectedSeason(activeSeason);
+        } else if (data.length > 0) {
+          setSelectedSeason(data[0]); // Fallback to the first season if no active one is found
+        }
+      } catch(error) {
+        console.error("Failed to fetch seasons:", error);
+        // Handle error appropriately, e.g., show a notification
+      } finally {
+        setLoading(false); // If you had a loading state
+      }
+    }
+    fetchSeasons();
+  }, []);
+
+  // Fetch teams when the selected season changes
+  useEffect(() => {
+    async function fetchTeams() {
+      if (!selectedSeason) return;
+      
+      setLoading(true); // Set loading state while fetching teams
+      try {
+        const response = await fetch('/api/teams?seasonId=' + (selectedSeason.id));
 
         // Check if the response is ok (status in the range 200-299)
         if (!response.ok) {
@@ -58,10 +96,11 @@ export default function AdminTeamsPage() {
         setLoading(false); // If you had a loading state
       }
     }
-
+    
     fetchTeams();
-  }, []);
+  }, [selectedSeason]);
 
+  // This constant is filtered based on the active tab, and changes when the active tab is changed.
   const currentTeams = allTeams.filter(team => {
     if (activeTab === "mens") {
       return team.teamCategory === "Gents";
@@ -70,9 +109,7 @@ export default function AdminTeamsPage() {
     }
   });
 
-  const [selectedTeamId, setSelectedTeamId] = useState<string | null>(null);
-
-
+  // This function is called when the category tab is changed. It is passed to the TeamsTabBar component.
   function handleTabChange(tab: "mens" | "womens") {
     setActiveTab(tab);
     setSelectedTeamId(null); // Reset selected team when tab changes
@@ -96,34 +133,44 @@ export default function AdminTeamsPage() {
       <TeamsTabBar tabs={tabs} activeTab={activeTab} setActiveTab={handleTabChange} />
       
       {/* Season selector */}
-      <SeasonSelector seasons={[{id: "0", name: "2024-2025", active: true}, {id: "1", name: "2023-2024", active: false} ]} onSeasonSelect={() => {}} />
+      <SeasonSelector
+        seasons={allSeasons}
+        selectedSeason={selectedSeason}
+        onSeasonSelect={(season) => {
+          setSelectedSeason(season);
+          setSelectedTeamId(null);
+        }}
+      />
 
-        <div className={`${styles.contentContainer}`}>
+      {/* Content Container */}
+      <div className={`${styles.contentContainer}`}>
 
-          {loading ? (
-            <div className="flex items-center justify-center w-full h-full">
-              <p className="text-gray-500">Loading teams...</p>
-            </div>
-          ) : (
-            <>
-              {currentTeams.length === 0 ? (
-                <div className={`${styles.teamListContainer} items-center mt-30`}>
-                  <p className="text-gray-500">No teams found for the selected category and season.</p>
-                </div>
-              ) : (
-                <div className={`${styles.teamListContainer}`}>
-                  {/* List component */}
-                  <AdminTeamsList teams={currentTeams} selectedTeamId={selectedTeamId} onTeamSelect={setSelectedTeamId}/>
-                </div>
-              )}
-              <div className={`${styles.teamDetailsContainer}`}>
-                {/* Team-Detail page that is only displayed when teamToView is set */}
-                <TeamDetailsPage teamId={selectedTeamId} onClose={() => {setSelectedTeamId(null)}}/>
-              </div>
-            </>
-          )}
-
+        {loading ? (
+          // Loading state
+          <div className={`${styles.loadingContainer}`}>
+            Loading teams...
           </div>
+        ) : (
+          <>
+            {currentTeams.length === 0 ? (
+              // No teams found message
+              <div className={`${styles.teamListContainer} items-center justify-center`}>
+                <p className="text-gray-500 text-center">No teams found for the selected category and season.</p>
+              </div>
+            ) : (
+              // List component 
+              <div className={`${styles.teamListContainer}`}>
+                <AdminTeamsList teams={currentTeams} selectedTeamId={selectedTeamId} onTeamSelect={setSelectedTeamId}/>
+              </div>
+            )}
+            <div className={`${styles.teamDetailsContainer}`}>
+              {/* Team-Detail page that is only displayed when teamToView is set */}
+              <TeamDetailsPage teamId={selectedTeamId} onClose={() => {setSelectedTeamId(null)}}/>
+            </div>
+          </>
+        )}
+
+      </div>
     </div>
   );
 }

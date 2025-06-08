@@ -5,14 +5,18 @@ import { TeamListItem } from "@/types/team";
 
 
 export async function GET(_req: Request) {
+  const { searchParams } = new URL(_req.url);
+  const seasonId = searchParams.get("seasonId");
+
   try {
-    // Fetch all teams from the database
+    // Conditional where clause based on whether seasonId is passed
+    const whereClause = seasonId ? 
+      { seasonId } : 
+      { season: { active: true } }; // If no seasonId is passed, default to active season
+
+    // Fetch query teams from the database
     const teams = await prisma?.teamSeason.findMany({
-      where: {
-        season: {
-          active: true, // Only fetch teams for the current season
-        },
-      },
+      where: whereClause,
       select: {
         id: true, 
         theme: true, 
@@ -30,8 +34,9 @@ export async function GET(_req: Request) {
         }
       } 
     });
+    
 
-    // Map the results to a simpler format
+    // Map the results to a simpler format according to a type definition
     const formattedTeams: TeamListItem[] = teams?.map((team) => {
       return {
         teamSeasonId: team.id, 

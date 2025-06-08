@@ -12,6 +12,9 @@ import MemberDetail from "@/features/members/admin/components/details-page/membe
 
 import { deleteMember, getMembers } from "@/features/members/services/membersService";
 
+import adminStyles from "../admin-styles.module.css";
+import styles from './members.module.css'; 
+
 /**
  * AdminMembersPage component
  * 
@@ -98,8 +101,8 @@ export default function AdminMembersPage() {
 
 
   return (
-    <div className="admin-page members-page">
-      <div className="admin-header">
+    <div className={`${adminStyles.adminPage}`}>
+      <div className={`${adminStyles.adminHeader}`}>
         {/* Tab component */}
         <MembersToolbar 
           search="test"
