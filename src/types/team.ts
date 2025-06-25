@@ -1,4 +1,4 @@
-import { Team as PrismaTeam, TeamSeason, Member } from "@prisma/client";
+
 
 export interface TeamListItem {
   teamSeasonId: string;
@@ -11,9 +11,18 @@ export interface TeamListItem {
 
 export interface teamDetails {
   id: string;
-  name: string;
   theme: string | null; 
   poule: string | null; 
+
+  nevoboPouleId: string | null;
+  nevoboRegion: string | null;
+
+  team: {
+    id: string;
+    name: string;
+    nevoboName: string | null; 
+  }
+
   members?: Array<{
     id: string;
     firstName: string;
