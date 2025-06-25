@@ -1,5 +1,5 @@
 
-import "./styles.css";
+import adminStyles from './admin-styles.module.css';
 
 /**
  * AdminPage component
@@ -16,8 +16,8 @@ export default function AdminPage() {
 
 
   return (
-    <div className="admin-page home-page">
-      <div className="admin-header">
+    <div className={`${adminStyles.adminPage} home-page`}>
+      <div className={`${adminStyles.adminHeader}`}>
         <h1>Admin Dashboard</h1> 
       </div>
     </div>

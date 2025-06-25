@@ -1,8 +1,7 @@
 // import { Member } from "@prisma/client";
 import { Member } from "@prisma/client";
 
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import MemberDetailsPageHeader from "./header";
 import TabBar from "./tab-bar";
 import InformationPanel from "./information-panel";
@@ -11,6 +10,7 @@ import CommitteeHistoryPanel from "./committee-history";
 
 import "../../styles/member-detail.css"; 
 import ActivityPanel from "./activity-panel";
+import { CommitteeHistoryItem, TeamHistoryItem } from "@/types/member";
 
 interface MemberDetailProps {
   onClose: () => void;
@@ -32,7 +32,7 @@ interface MemberDetailProps {
  *
  * @returns {JSX.Element} The rendered member detail section.
  */
-export default function MemberDetail({ onClose, member }: { onClose: () => void; member: Member }) {
+export default function MemberDetail({ onClose, member }: MemberDetailProps) {
   const tabs = [
     "Personal Information",
     "Team History",
@@ -47,9 +47,9 @@ export default function MemberDetail({ onClose, member }: { onClose: () => void;
   // const currentCommittees = await getMemberCurrentCommittees(member.id);
   // const committeeHistory = await getMemberCommitteeHistory(member.id);
   const [currentTeam, setCurrentTeam] = useState<{id: string, name: string} | null>(null);
-  const [teamHistory, setTeamHistory] = useState<{ team: {id: string, name: string}, season: {id: string, name: string}}[]>([]);
-  const [currentCommittees, setCurrentCommittees] = useState<{committee: {id: string, name: string}, season: {id: string, name: string, active: boolean}}[]>([]);
-  const [committeeHistory, setCommitteeHistory] = useState<{committee: {id: string, name: string}, season: {id: string, name: string, active: boolean}}[]>([]);
+  const [teamHistory, setTeamHistory] = useState<TeamHistoryItem[]>([]);
+  const [currentCommittees, setCurrentCommittees] = useState<CommitteeHistoryItem[]>([]);
+  const [committeeHistory, setCommitteeHistory] = useState<CommitteeHistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   const onTabChange = (tab: string) => {

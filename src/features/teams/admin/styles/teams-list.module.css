@@ -1,0 +1,31 @@
+.adminTeamsList {
+  border-radius: 8px;
+  border: 1px solid #846099;
+  overflow: hidden;
+  margin: 10px;
+  width: 100%;
+  align-self: flex-start;
+}
+
+
+.teamItem {
+  background-color: white; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2.5rem;
+  cursor: pointer;
+}
+
+.teamItem:not(:last-child) {
+  border-bottom: 1px solid #846099;
+}
+
+.teamLink {
+  
+}
+
+.selectedTeam {
+  /* background-color: #dbcde4bb;  */
+  background-color: #84609922;
+}

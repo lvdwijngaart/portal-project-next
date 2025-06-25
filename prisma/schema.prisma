@@ -29,6 +29,12 @@ enum PaymentStatus {
   refunded
 }
 
+enum TeamCategory {
+  Gents
+  Ladies
+  TrainingTeam @map("Training Team")
+}
+
 //--- Models
 
 model User {
@@ -78,6 +84,8 @@ model Member {
 model Team {
   id                String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name              String                @unique
+  teamCategory      TeamCategory          @map("team_category") @default(Gents)
+  nevoboName        String?               @map("nevobo_name")
   createdAt         DateTime              @default(now()) @map("created_at") @db.Timestamptz(6)
 
   // relation to per-season data
@@ -107,6 +115,13 @@ model TeamSeason {
 
   theme             String?               // that season's team theme
   poule             String?
+
+  nevoboPouleId     String?               @map("nevobo_poule_id") // Nevobo's poule ID
+  nevoboRegion      String?               @map("nevobo_region") // Nevobo poule's region
+
+  // Photo relationship - TeamSeason owns the foreign key
+  photoId           String?               @db.Uuid
+  teamPhoto         Photo?                @relation("TeamPhoto", fields: [photoId], references: [id], onDelete: SetNull)
 
   // relations
   team              Team                  @relation(fields: [teamId], references: [id], onDelete: Cascade)
@@ -228,6 +243,9 @@ model Photo {
   // relations: activity can have many photos
   activityId        String?               @db.Uuid
   activity          Activity?             @relation("ActivityPhotos", fields: [activityId], references: [id], onDelete: Cascade)
+
+  // relations: team season can have reference this photo
+  teamPhoto        TeamSeason[]          @relation("TeamPhoto")
 
   @@map("photos")
 }

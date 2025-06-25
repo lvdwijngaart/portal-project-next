@@ -39,11 +39,33 @@ This first week was filled with enthousiasm and confidence, and looking back I t
 
 <img src="./public/member-page-detail.png" alt="Member Page showing the details of a member" width="500"/>
 
-[Visit image](./public/member-page-detail.png)
+[Visit image](./public/members-page-detail.png)
 
 
+<img src="./public/members-team-history.jpg" alt="Member Page showing the Team History of a member" width="500"/>
+
+[Visit image](./public/members-team-history.jpg)
 
 
+<img src="./public/members-activity-history.jpg" alt="Member Page showing the past activity signups of a member" width="500"/>
+
+[Visit image](./public/members-activity-history.jpg)
+
+## 8th of june - 3 weeks post *init*
+
+After making significant progress on the member administration/management, I decided I wanted to have a change of scenery. I started building a page surrounding the team objects in the portal. I started working on a layout of a team management page, where a board member like the Match Secretary can manage what teams are active in what seasons, which members are part of which team, and once a new season arrives, this season object should be created and set to active. 
+
+For now, the layout of this page has been made and the user flow has been established. See the image down below for an impression. The screen shows: 
+- Options to see what category of teams to view (Gents, Ladies, future: Trainingsteam). 
+- A dropdown to see the TeamSeason objects for a certain season. 
+- A list of teams for the selected category and season. Clicking it will highlight it, and will cause details of this team to be displayed in the box to the right of this list. These details will include: Team Theme, Team photo, players (captain) and their field positions, the poule classification, and possibly more. 
+
+### Images
+
+
+<img src="./public/teams-admin-page.jpg" alt="Member Page showing the past activity signups of a member" width="500"/>
+
+[Visit image](./public/teams-admin-page.jpg)
 
 
 <br><br>

@@ -1,10 +1,8 @@
 import { Member } from "@prisma/client";
-import { DateTime } from "next-auth/providers/kakao";
 import { useEffect, useState } from "react";
 
 import "../../styles/member-detail.css";
 import Link from "next/link";
-import { set } from "zod/v4";
 
 interface ActivityPanelProps {
   member: Member;
@@ -32,7 +30,6 @@ export default function ActivityPanel({
   member,
 }: ActivityPanelProps) {
 
-  const [activity, setActivity] = useState<ActivitySignup[]>([]);
   const [splitActivities, setSplitActivities] = useState<{upcoming: ActivitySignup[], past: ActivitySignup[]}>({past: [], upcoming: []});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -42,17 +39,18 @@ export default function ActivityPanel({
       try {
         const res = await fetch(`/api/members/${member.id}/activity-signups`);
         if (!res.ok) throw new Error("Failed to fetch activity");
+        
         const data = await res.json();
         console.log("Fetched activity data:", data);
+
         const upcomingAndPast = upcomingAndPastActivities(data);
+        
         // Ensure data is always an array
         if (isMounted) {
-          setActivity(data || []);
           setSplitActivities( upcomingAndPast || { upcoming: [], past: [] });
         }
       } catch {
         if (isMounted) {
-          setActivity([]);
           setSplitActivities({ upcoming: [], past: [] });
         }
       } finally {

@@ -3,14 +3,17 @@
 import { Member } from "@prisma/client";
 import { useEffect, useState } from "react";
 
-import MembersList from "@/features/members/admin/components/members-list";
+import AdminMemberList from "@/features/members/admin/components/members-list";
 import MembersToolbar from "@/features/members/admin/components/members-toolbar";
 import AddMemberModal from "@/features/members/admin/components/add-modal";
 import ImportMemberModal from "@/features/members/admin/components/import-modal";
 import DeleteMemberModal from "@/features/members/admin/components/delete-modal";
+import MemberDetail from "@/features/members/admin/components/details-page/member-detail";
 
 import { deleteMember, getMembers } from "@/features/members/services/membersService";
-import MemberDetail from "@/features/members/admin/components/details-page/member-detail";
+
+import adminStyles from "../admin-styles.module.css";
+import styles from './members.module.css'; 
 
 /**
  * AdminMembersPage component
@@ -98,8 +101,8 @@ export default function AdminMembersPage() {
 
 
   return (
-    <div className="admin-page members-page">
-      <div className="admin-header">
+    <div className={`${adminStyles.adminPage}`}>
+      <div className={`${adminStyles.adminHeader}`}>
         {/* Tab component */}
         <MembersToolbar 
           search="test"
@@ -114,7 +117,7 @@ export default function AdminMembersPage() {
         />
       </div>
 
-      <MembersList 
+      <AdminMemberList 
         members={members} 
         isLoading={isLoading} 
         onMemberClick={(member) => {
