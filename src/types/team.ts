@@ -30,4 +30,11 @@ export interface teamDetails {
     fieldPosition: string | null; 
     shirtNumber: string | null; 
   }>;
+
+  teamPhoto?: {
+    id: string;
+    url: string;
+    caption: string | null; 
+  } | null;
 }
+
