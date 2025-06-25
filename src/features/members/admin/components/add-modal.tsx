@@ -2,7 +2,7 @@
 
 import { createMember, updateMember } from "../../services/membersService";
 import React, { useState, useTransition } from "react";
-import type { Member, Prisma } from "@prisma/client"
+import type { Member } from "@prisma/client"
 
 import "../styles/add-modal.css";
 

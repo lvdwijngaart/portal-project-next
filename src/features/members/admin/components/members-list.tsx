@@ -1,5 +1,4 @@
 import { Member } from "@prisma/client";
-import { useState } from "react";
 
 import "../../styles/members-list.css"; 
 

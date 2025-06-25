@@ -10,7 +10,7 @@ import { getUser } from "./db-actions";
 export const nextAuthConfig = {
   providers: [
     Credentials({
-      async authorize(credentials, req) {
+      async authorize(credentials, _req) {
         const parsedCredentials = z
           .object({
             email: z.string().email(),

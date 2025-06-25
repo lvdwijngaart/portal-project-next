@@ -1,8 +1,5 @@
 "use client";
 
-import { auth } from "@/features/auth/services/auth";
-import { LoginForm } from "@/features/auth/components/login-form";
-import Image from "next/image";
 import TeamsList from "@/features/teams/public/components/teams-list";
 
 import "./page.css";

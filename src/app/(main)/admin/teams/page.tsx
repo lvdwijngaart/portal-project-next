@@ -5,7 +5,6 @@ import TeamsTabBar from "@/features/teams/admin/components/tabbar";
 import TeamDetailsPage from "@/features/teams/admin/components/team-details";
 import AdminTeamsList from "@/features/teams/admin/components/teams-list";
 import { TeamListItem } from "@/types/team";
-import { Team } from "@prisma/client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 

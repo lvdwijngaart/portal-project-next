@@ -5,10 +5,8 @@ import React from 'react';
 // import { enabledModules } from '../../config/modules.config';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { auth } from '@/features/auth/services/auth';
 import { LogoutButton } from '@/features/auth/components/logout-button';
 import Image from 'next/image';
-import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
 
 import './NavBar.css';

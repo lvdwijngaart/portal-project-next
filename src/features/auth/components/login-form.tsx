@@ -1,8 +1,7 @@
 "use client";
 
-import { useActionState, useState } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useActionState } from "react";
+import { useSearchParams } from "next/navigation";
 import { authenticate } from "@/features/auth/services/authenticate";
 
 import "./login-form.css"; 
