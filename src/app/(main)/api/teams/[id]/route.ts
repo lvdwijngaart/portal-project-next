@@ -1,5 +1,6 @@
 import { teamDetails } from "@/types/team";
 import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 
 /**
  * Route to fetch teamSeason details by teamSeasonId. These details include: 
