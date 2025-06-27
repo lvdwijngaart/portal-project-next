@@ -112,15 +112,15 @@ model TeamSeason {
   id                String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   teamId            String                @db.Uuid
   seasonId          String                @db.Uuid
+  photoId           String?               @db.Uuid
 
-  theme             String?               // that season's team theme
+  theme             String?               // that teamSeason's theme
   poule             String?
 
   nevoboPouleId     String?               @map("nevobo_poule_id") // Nevobo's poule ID
   nevoboRegion      String?               @map("nevobo_region") // Nevobo poule's region
 
   // Photo relationship - TeamSeason owns the foreign key
-  photoId           String?               @db.Uuid
   teamPhoto         Photo?                @relation("TeamPhoto", fields: [photoId], references: [id], onDelete: SetNull)
 
   // relations

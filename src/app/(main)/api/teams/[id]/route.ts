@@ -44,6 +44,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
         members: {
           select: {
             id: true,
+            isCaptain: true,
             member: {
               select: {
                 id: true,
@@ -89,11 +90,12 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       },
 
       members: team.members.map(member => ({
-      id: member.id,
-      firstName: member.member.firstName,
-      lastName: member.member.lastName,
-      fieldPosition: member.member.fieldPosition,
-      shirtNumber: member.member.shirtNumber,
+        id: member.id,
+        firstName: member.member.firstName,
+        lastName: member.member.lastName,
+        fieldPosition: member.member.fieldPosition,
+        shirtNumber: member.member.shirtNumber,
+        isCaptain: member.isCaptain || false, 
       })),
 
       teamPhoto: team.teamPhoto

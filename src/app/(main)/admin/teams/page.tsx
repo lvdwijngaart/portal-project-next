@@ -7,10 +7,14 @@ import AdminTeamsList from "@/features/teams/admin/components/teams-list";
 import { TeamListItem } from "@/types/team";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { SeasonDropdownOption } from "@/types/season";
 
 import adminStyles from "../admin-styles.module.css"; 
 import styles from './teams.module.css';
-import { SeasonDropdownOption } from "@/types/season";
+import AddTeamSeasonModal from "@/features/teams/admin/modals/add-teamseason";
+import ImportMemberModal from "@/features/members/admin/components/import-modal";
+import ExportTeamSeasonModal from "@/features/teams/admin/modals/export-teamseason";
+import ImportTeamSeasonModal from "@/features/teams/admin/modals/import-teamseason";
 
 
 /**
@@ -41,6 +45,11 @@ export default function AdminTeamsPage() {
   
   const [allTeams, setAllTeams] = useState<TeamListItem[]>([]);
   const [selectedTeamId, setSelectedTeamId] = useState<string | null>(null);
+
+  // Modal states
+  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+  const [isImportModalOpen, setIsImportModalOpen] = useState<boolean>(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState<boolean>(false);
 
   // Fetch teams data from the server when the component mounts
   useEffect(() => {
@@ -119,7 +128,30 @@ export default function AdminTeamsPage() {
     <div className={`${styles.teamsPage}`}>
       {/* Header */}
       <div className={`${adminStyles.adminHeader} flex justify-between items-center`}>
-        <h1>Admin Teams Page</h1> 
+
+        <div className="flex gap-2 items-center">
+          <h1 className="mr-10">Admin Teams Page</h1> 
+
+          {/* Add */}
+          <button
+            className={`${styles.addButton} btn btn-primary`}
+            onClick={() => setIsAddModalOpen(true)}
+          >Add Team Season</button>
+
+          {/* Import */}
+          <button
+            className={`${styles.importButton} btn btn-secondary ml-2`}
+            onClick={() => setIsImportModalOpen(true)}
+          >Import Teams</button>
+
+          {/* Export */}
+          <button
+            className={`${styles.exportButton} btn btn-secondary ml-2`}
+            onClick={() => setIsExportModalOpen(true)}
+          >Export Teams</button>
+
+        </div>
+
         <Link
           href='/admin/teams/config'
           className={`${styles.manageButton}`}
@@ -131,15 +163,6 @@ export default function AdminTeamsPage() {
       {/* TeamCategory Tab Bar */}
       <TeamsTabBar tabs={tabs} activeTab={activeTab} setActiveTab={handleTabChange} />
       
-      {/* Season selector */}
-      <SeasonSelector
-        seasons={allSeasons}
-        selectedSeason={selectedSeason}
-        onSeasonSelect={(season) => {
-          setSelectedSeason(season);
-          setSelectedTeamId(null);
-        }}
-      />
 
       {/* Content Container */}
       <div className={`${styles.contentContainer}`}>
@@ -159,6 +182,15 @@ export default function AdminTeamsPage() {
             ) : (
               // List component 
               <div className={`${styles.teamListContainer}`}>
+                {/* Season selector */}
+                <SeasonSelector
+                  seasons={allSeasons}
+                  selectedSeason={selectedSeason}
+                  onSeasonSelect={(season) => {
+                    setSelectedSeason(season);
+                    setSelectedTeamId(null);
+                  }}
+                />
                 <AdminTeamsList teams={currentTeams} selectedTeamId={selectedTeamId} onTeamSelect={setSelectedTeamId}/>
               </div>
             )}
@@ -170,6 +202,20 @@ export default function AdminTeamsPage() {
         )}
 
       </div>
+
+      {/* Modals */}
+      {isAddModalOpen && (
+        <AddTeamSeasonModal onClose={() => setIsAddModalOpen(false)} />
+      )}
+
+      {isImportModalOpen && (
+        <ImportTeamSeasonModal onClose={() => setIsImportModalOpen(false)} />
+      )}
+
+      {isExportModalOpen && (
+        <ExportTeamSeasonModal onClose={() => setIsExportModalOpen(false)} />
+      )}
+
     </div>
   );
 }

@@ -114,99 +114,137 @@ export default function TeamDetailsPage({ teamId, onClose }: TeamDetailsPageProp
             
             {teamData && !loading && (
               <div className='w-full'>
-                <div className="header flex gap-2 items-center mb-4 w-full">
-                  <button className='text-gray-500 hover:text-gray-700' onClick={onClose}>
-                    ×
-                  </button>
-                  <h2 className='text-lg font-semibold'>{teamData.team.name}&apos;s Team Details</h2>
-                </div>
                 <div className="flex flex-row w-full gap-6">
 
                   {/* Team details */}
                   <div className="flex-1 flex flex-col gap-2">
 
-                    <div className='flex justify-between'>
+                    <div className='flex justify-between mb-2'>
 
-                      <div className='flex flex-col'>
+                      <div className='flex flex-col w-full'>
+
+                        <div className="header flex gap-6 items-center mb-4 w-full">
+                          <button className='text-gray-500 hover:text-gray-700' onClick={onClose}>
+                            ×
+                          </button>
+                          <h2 className='text-lg font-semibold'>{teamData.team.name}&apos;s Team Details</h2>
+                        </div>
+
                         <div className="mb-2">
                           <div className="text-sm text-gray-500">Theme</div>
                           <div className="font-medium">{teamData.theme ?? <span className="text-gray-400">No theme</span>}</div>
                         </div>
-                        <div className="mb-2">
-                          <div className="text-sm text-gray-500">Poule</div>
-                          <div className="font-medium">{teamData.poule ?? <span className="text-gray-400">No poule</span>}</div>
+                        <div className="flex mb-2 w-full">
+                          <div className="">
+                            <div className="text-sm text-gray-500">Poule</div>
+                            <div className="font-medium">{teamData.poule ?? <span className="text-gray-400">No poule</span>}</div>
+                          </div>
+                          <div className="flex-1 flex justify-center" style={{ minWidth: 0 }}>
+                            <div>
+                              <div className="text-sm text-gray-500">Region</div>
+                              <div className="font-medium">{teamData.nevoboRegion ?? <span className="text-gray-400">No region</span>}</div>
+                            </div>
+                          </div>
                         </div>
                       </div>
 
                       {/* Team photo placeholder */}
                       <div className="flex-shrink-0  mr-4">
                         <div
-                          className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400 text-4xl border overflow-hidden"
+                          className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400 text-4xl overflow-hidden"
+                          style={{ border: '1px solid #846099' }} // Replace #3498db with your desired hex code
                           title="Team photo"
                           onClick={() => teamData.teamPhoto?.url && setShowImageModal(true)}
                         >
                           <Image
-                            src={teamData.teamPhoto?.url || '/placeholder-team-photo.png'}
-                            alt="Team Photo"
-                            width={112}
-                            height={112}
-                            className="object-cover w-full h-full"
+                          src={teamData.teamPhoto?.url || '/placeholder-team-photo.png'}
+                          alt="Team Photo"
+                          width={112}
+                          height={112}
+                          className="object-cover w-full h-full"
                           />
                         </div>
                       </div>
                     
                     </div>
 
-                    {/* Standings Table Placeholder */}
-                    <div className="mb-2">
+                    <div className='flex justify-between gap-6 mr-6'>
+                      {/* Standings Table Placeholder */}
+                      <div className="flex-2 mb-2">
                       <div className="text-sm text-gray-500 mb-1">Standings</div>
-                      <div className="border rounded bg-gray-50 p-2 text-center text-gray-400 text-sm">
-                        {standingsData && standingsData.standings && standingsData.standings.length > 0 ? (
-                          <table className="min-w-full text-xs text-left border-collapse">
-                            <thead>
-                              <tr>
-                                <th className="px-2 py-1 border-b font-semibold">#</th>
-                                <th className="px-2 py-1 border-b font-semibold">Team</th>
-                                <th className="px-2 py-1 border-b font-semibold">Played</th>
-                                <th className="px-2 py-1 border-b font-semibold">Points</th>
-                                <th className="px-2 py-1 border-b font-semibold">Sets won</th>
-                                <th className="px-2 py-1 border-b font-semibold">Sets lost</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {standingsData.standings.map((row, idx) => (
-                                <tr key={row.team.id || idx} className={row.team.name === teamData?.team.nevoboName ? "bg-blue-100 font-bold" : ""}>
-                                  <td className="px-2 py-1 border-b">{row.position}</td>
-                                  <td className="px-2 py-1 border-b">{row.team.name}</td>
-                                  <td className="px-2 py-1 border-b">{row.matches}</td>
-                                  <td className="px-2 py-1 border-b">{row.points}</td>
-                                  <td className="px-2 py-1 border-b">{row.setsFor}</td>
-                                  <td className="px-2 py-1 border-b">{row.setsAgainst}</td>
+                        <div className="border rounded bg-gray-50 p-2 text-center text-gray-400 text-sm">
+                          {standingsData && standingsData.standings && standingsData.standings.length > 0 ? (
+                            <table className="min-w-full text-xs text-left border-collapse">
+                              <thead>
+                                <tr>
+                                  <th className="px-2 py-1 border-b font-semibold">#</th>
+                                  <th className="px-2 py-1 border-b font-semibold">Team</th>
+                                  <th className="px-2 py-1 border-b font-semibold">Played</th>
+                                  <th className="px-2 py-1 border-b font-semibold">Points</th>
+                                  <th className="px-2 py-1 border-b font-semibold">Sets won</th>
+                                  <th className="px-2 py-1 border-b font-semibold">Sets lost</th>
                                 </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        ) : (
-                          <span className="text-gray-400">No standings available</span>
-                        )}
-                        {/* Standings table will appear here (placeholder) */}
+                              </thead>
+                              <tbody>
+                                {standingsData.standings.map((row, idx) => (
+                                  <tr key={row.team.id || idx} className={row.team.name === teamData?.team.nevoboName ? "bg-blue-100 font-bold" : ""}>
+                                    <td className="px-2 py-1 border-b">{row.position}</td>
+                                    <td className="px-2 py-1 border-b">{row.team.name}</td>
+                                    <td className="px-2 py-1 border-b">{row.matches}</td>
+                                    <td className="px-2 py-1 border-b">{row.points}</td>
+                                    <td className="px-2 py-1 border-b">{row.setsFor}</td>
+                                    <td className="px-2 py-1 border-b">{row.setsAgainst}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          ) : (
+                            <span className="text-gray-400">No standings available</span>
+                          )}
+                          {/* Standings table will appear here (placeholder) */}
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Players List */}
-                    <div>
-                      <div className="text-sm text-gray-500 mb-1">Players</div>
-                      <ul className="list-disc pl-5">
-                        {teamData.members && teamData.members.length > 0 ? (
-                          teamData.members.map(player => (
-                            <li key={player.id}>
-                              {player.firstName} {player.lastName} - {player.fieldPosition}
-                            </li>
-                          ))
-                        ) : (
-                          <li className="text-gray-400">No players</li>
-                        )}
-                      </ul>
+                      {/* Players List */}
+                      <div className="flex-1 mb-2">
+                        {/* <div className="text-sm text-gray-500 mb-1">Players</div> */}
+                        <table className={`${styles.playerListTable} min-w-full text-xs text-left border-collapse`}>
+                          <thead>
+                            <tr className=''>
+                              <th className="font-semibold">Shirt #</th>
+                              <th className="font-semibold">Name</th>
+                              <th className="font-semibold">Position</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {teamData.members && teamData.members.length > 0 ? (
+                              teamData.members.map((player, idx) => (
+                                <tr key={player.id} className={player.isCaptain ? "bg-yellow-100 font-bold" : ""}>
+                                  <td>{player.shirtNumber ?? "?"}</td>
+                                  <td>{player.firstName} {player.lastName}</td>
+                                  <td>{player.fieldPosition ?? "?"}</td>
+                                </tr>
+                              ))
+                            ) : (
+                              <tr className=''>
+                                <td colSpan={3} className="py-1 text-gray-400 text-center">No players</td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                        {/* <ul className='list-disc pl-5 text-sm text-gray-700'>
+                          {teamData.members && teamData.members.length > 0 ? (
+                            teamData.members.map(player => (
+                              <li key={player.id} className='mb-1 border-b border-gray-200 pb-1'>
+                                {player.firstName} {player.lastName} - {player.fieldPosition}
+                              </li>
+                            ))
+                          ) : (
+                            <li className="text-gray-400">No players</li>
+                          )}
+                        </ul> */}
+                      </div>
+                      
                     </div>
                   </div>
 
