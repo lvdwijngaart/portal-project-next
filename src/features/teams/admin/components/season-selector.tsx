@@ -13,7 +13,7 @@ export default function SeasonSelector({ seasons, selectedSeason, onSeasonSelect
   // If no seasons are provided, show a message indicating no seasons are available
   if (!seasons || seasons.length === 0) {
     return (
-      <div className="flex items-center gap-4 my-6">
+      <div className="flex items-center gap-4 my-2">
         <span className="font-medium text-gray-700 whitespace-nowrap">
           Season:
         </span>
@@ -32,7 +32,7 @@ export default function SeasonSelector({ seasons, selectedSeason, onSeasonSelect
   };
 
   return (
-    <div className="flex items-center gap-4 my-6 ">
+    <div className="flex items-center gap-4 my-2">
       <label htmlFor="season-select" className="font-medium text-gray-700 whitespace-nowrap">
         Season:
       </label>

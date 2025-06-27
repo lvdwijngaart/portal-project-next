@@ -29,6 +29,7 @@ export interface teamDetails {
     lastName: string;
     fieldPosition: string | null; 
     shirtNumber: string | null; 
+    isCaptain: boolean;
   }>;
 
   teamPhoto?: {
